@@ -22,15 +22,17 @@ namespace Brave_New_World
     class Biome
     {
         // Constants
-        const int SCREEN_HEIGHT = 500;
-        const int EQUATOR = 100;
-        const int CONTOUR_INTERVAL = 100;
-        const int MAX_CONTOUR = 1000;
+        const int SCREEN_HEIGHT = 486;
+        int equator = SCREEN_HEIGHT / 2;
+        const int CONTOUR_INTERVAL = 20;
+        const int MAX_CONTOUR = 20;
 
         // Physical attributes received from mesh generator
         private int roundsOfGeneration;
         Point[] m_locations;
         string m_customKey = "";
+
+
 
         // climate, latitude, altitude, slope, substrate, aspect
         // constructor
@@ -53,10 +55,13 @@ namespace Brave_New_World
                 aspect = Aspect(i);
                 latitude = Latitude(m_locations[i]);
                 slope = Slope(m_locations[i]);
-                substrate = Substrate(Convert.ToInt16(latitude), Convert.ToInt16(altitude), Convert.ToInt16(slope)); //"";
+                substrate = Substrate(Convert.ToInt16(latitude), Convert.ToInt16(altitude), Convert.ToInt16(slope));
+
+                string[] keys = new string[m_locations.Length];
+                SetCustomKey(latitude, altitude, slope, substrate, aspect);
+                keys[i] = m_customKey;
             }
 
-            SetCustomKey(latitude, altitude, slope, substrate, aspect);
         }
 
         private void SetCustomKey(string latitude, string altitude, string slope, string substrate, string aspect)
@@ -69,18 +74,18 @@ namespace Brave_New_World
         }
 
         // member functions
-        public int RoundsOfGeneration
+ /*       public int RoundsOfGeneration
         {
             get { return roundsOfGeneration; }
             set
             {
                 roundsOfGeneration = value;
             }
-        }
+        } */
 
         public string Altitude(Point p)
         {
-            return  (MAX_CONTOUR - roundsOfGeneration).ToString();
+            return  (MAX_CONTOUR - roundsOfGeneration).ToString("D2");
         }
 
         public string Aspect(int locationIndex)
@@ -159,7 +164,7 @@ namespace Brave_New_World
             else if((latitude == 0) && (altitude == 0) && (slope == 1 || (slope == 2)))
             {
                 int randomSubstrate = r.Next(1, 2);
-                substrate = 01;
+                substrate = randomSubstrate;
             }
             // conditionals for dry temperate substrates
             else if((latitude == 3) && (altitude == 1) && (slope == 1))
@@ -190,7 +195,7 @@ namespace Brave_New_World
             // conditional for polar substrates
             else if((latitude == 4) && (altitude == 1) && (slope == 0))
             {
-                substrate = 00;
+                substrate = 0;
             }
             // default substrate is rock if all other conditions fail.
             else
@@ -204,7 +209,7 @@ namespace Brave_New_World
         {
             int y = p.Y;
             int latitude;
-            if(y < EQUATOR) // if our location is north of the equator
+            if(y < equator) // if our location is north of the equator
             {
                 latitude = (90 - (y * 180) / SCREEN_HEIGHT);
             }
@@ -214,5 +219,7 @@ namespace Brave_New_World
             }
             return latitude.ToString("D2");
         }
+
+
     }
 }

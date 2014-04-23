@@ -34,7 +34,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(58, 214);
+            this.button1.Location = new System.Drawing.Point(59, 227);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -44,7 +44,7 @@
             // 
             // txt_keyOutput
             // 
-            this.txt_keyOutput.Location = new System.Drawing.Point(49, 57);
+            this.txt_keyOutput.Location = new System.Drawing.Point(58, 12);
             this.txt_keyOutput.Name = "txt_keyOutput";
             this.txt_keyOutput.Size = new System.Drawing.Size(100, 20);
             this.txt_keyOutput.TabIndex = 1;

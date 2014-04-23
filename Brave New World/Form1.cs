@@ -13,20 +13,26 @@ namespace Brave_New_World
     {
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();  
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             Point[] points = {
-               new Point(0, 100),
-               new Point(50, 80),
-               new Point(100, 20),
-               new Point(150, 80),
-               new Point(200, 100)};
-            Biome biome = new Biome(points, 5);
+               new Point(20, 50),
+               new Point(60, 05),
+               new Point(75, 40),
+               new Point(10, 10),
+               new Point(40, 45),
+               new Point(10, 20),
+               new Point(15, 30),
+               new Point(200, 10)};
+
+            Biome biome = new Biome(points, 16);
 
             txt_keyOutput.SelectedText = biome.GetCustomKey();
+          
+
         }
 
 
