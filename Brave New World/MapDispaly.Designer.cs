@@ -1,6 +1,6 @@
 ﻿namespace ClassProject
 {
-    partial class Form1
+    partial class MapDisplay
     {
         /// <summary>
         /// Required designer variable.
@@ -39,28 +39,26 @@
             this.picboxDrawing.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.picboxDrawing.Location = new System.Drawing.Point(0, 0);
             this.picboxDrawing.Name = "picboxDrawing";
-            this.picboxDrawing.Size = new System.Drawing.Size(625, 486);
+            this.picboxDrawing.Size = new System.Drawing.Size(762, 504);
             this.picboxDrawing.TabIndex = 0;
             this.picboxDrawing.TabStop = false;
-            this.picboxDrawing.Click += new System.EventHandler(this.picboxDrawing_Click);
             // 
             // btnDraw
             // 
-            this.btnDraw.Location = new System.Drawing.Point(631, 71);
+            this.btnDraw.Location = new System.Drawing.Point(649, 510);
             this.btnDraw.Name = "btnDraw";
             this.btnDraw.Size = new System.Drawing.Size(101, 23);
             this.btnDraw.TabIndex = 1;
-            this.btnDraw.Text = "Magic!!!";
+            this.btnDraw.Text = "Display";
             this.btnDraw.UseVisualStyleBackColor = true;
             this.btnDraw.Click += new System.EventHandler(this.btnDraw_Click);
             // 
-            // Form1
+            // MapDisplay
             // 
-            this.ClientSize = new System.Drawing.Size(761, 498);
+            this.ClientSize = new System.Drawing.Size(762, 545);
             this.Controls.Add(this.btnDraw);
             this.Controls.Add(this.picboxDrawing);
-            this.Name = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Name = "MapDisplay";
             ((System.ComponentModel.ISupportInitialize)(this.picboxDrawing)).EndInit();
             this.ResumeLayout(false);
 
