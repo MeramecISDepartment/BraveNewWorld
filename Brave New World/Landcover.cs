@@ -72,6 +72,17 @@ namespace Brave_New_World
 
         }
 
+
+
+        public string FetchBiome(string key)
+        {
+            string testString = "0104030101";
+            if (key.Equals(testString, StringComparison.Ordinal));
+            return "green";
+        }
+
+
+
         private void SetCustomKey(string latitude, string altitude, string slope, string substrate, string aspect)
         {
             m_customKey = latitude + altitude + slope + substrate + aspect;

@@ -37,6 +37,7 @@
             this.txt_biome5 = new System.Windows.Forms.TextBox();
             this.txt_biome6 = new System.Windows.Forms.TextBox();
             this.txt_biome7 = new System.Windows.Forms.TextBox();
+            this.txt_test1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -105,11 +106,19 @@
             this.txt_biome7.Size = new System.Drawing.Size(100, 20);
             this.txt_biome7.TabIndex = 8;
             // 
+            // txt_test1
+            // 
+            this.txt_test1.Location = new System.Drawing.Point(237, 13);
+            this.txt_test1.Name = "txt_test1";
+            this.txt_test1.Size = new System.Drawing.Size(100, 20);
+            this.txt_test1.TabIndex = 9;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(429, 261);
+            this.Controls.Add(this.txt_test1);
             this.Controls.Add(this.txt_biome7);
             this.Controls.Add(this.txt_biome6);
             this.Controls.Add(this.txt_biome5);
@@ -137,6 +146,7 @@
         private System.Windows.Forms.TextBox txt_biome5;
         private System.Windows.Forms.TextBox txt_biome6;
         private System.Windows.Forms.TextBox txt_biome7;
+        private System.Windows.Forms.TextBox txt_test1;
     }
 }
 

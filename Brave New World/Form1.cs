@@ -50,6 +50,7 @@ namespace Brave_New_World
             txt_biome5.SelectedText = biome.m_key[5];
             txt_biome6.SelectedText = biome.m_key[6];
             txt_biome7.SelectedText = biome.m_key[7];
+            txt_test1.SelectedText = biome.FetchBiome(biome.m_key[0]);
         
         
         }
