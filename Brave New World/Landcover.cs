@@ -30,6 +30,7 @@ namespace Brave_New_World
         // Physical attributes received from mesh generator
         private int roundsOfGeneration;
         Point[] m_locations;
+        public string[] m_key;
         string m_customKey = "";
 
 
@@ -49,6 +50,9 @@ namespace Brave_New_World
             m_locations = locations;
             roundsOfGeneration = rounds;
 
+            string[] keys = new string[m_locations.Length];
+                m_key = new string[m_locations.Length];
+
             for(int i = 0; i < m_locations.Length; i++)
             {
                 altitude = Altitude(m_locations[i]);
@@ -57,9 +61,13 @@ namespace Brave_New_World
                 slope = Slope(m_locations[i]);
                 substrate = Substrate(Convert.ToInt16(latitude), Convert.ToInt16(altitude), Convert.ToInt16(slope));
 
-                string[] keys = new string[m_locations.Length];
+
                 SetCustomKey(latitude, altitude, slope, substrate, aspect);
-                keys[i] = m_customKey;
+
+         //       m_customKey = GetCustomKey();
+         //       keys[i] = m_customKey;
+
+                m_key[i] = GetCustomKey(); // keys[i];
             }
 
         }
@@ -83,46 +91,89 @@ namespace Brave_New_World
             }
         } */
 
+
+
+        // Altitude is the Maximum number of rounds of generation, minus the round in which 
+        // the countour is generated. The altitude is the number of rounds remaining.
         public string Altitude(Point p)
         {
             return  (MAX_CONTOUR - roundsOfGeneration).ToString("D2");
         }
 
+
+
+        // Assign the 16 directions of the compass rose to a an integer representation of aspect.
         public string Aspect(int locationIndex)
         {
             string aspect;
             switch(locationIndex)
             {
                 case 0:
-                    aspect = "01";
-                    break;
                 case 1:
-                    aspect = "02";
+                case 15:
+                    aspect = "01"; // East
                     break;
                 case 2:
-                    aspect = "03";
+                    aspect = "02"; // NE
                     break;
                 case 3:
-                    aspect = "04";
-                    break;
                 case 4:
-                    aspect = "05";
-                    break;
                 case 5:
-                    aspect = "06";
+                    aspect = "03"; // N
                     break;
                 case 6:
-                    aspect = "07";
+                    aspect = "04"; // NW
                     break;
                 case 7:
-                    aspect = "08";
+                case 8:
+                case 9:
+                    aspect = "05"; // W
+                    break;
+                case 10:
+                    aspect = "06"; // SW
+                    break;
+                case 11:
+                case 12:
+                case 13:
+                    aspect = "07"; // S
+                    break;
+                case 14:
+                    aspect = "08"; // SE
                     break;
                 default:
-                    aspect = "09";
+                    aspect = "09"; // Central
                     break;
             }
             return aspect;
         }
+
+
+
+        public string Latitude(Point p)
+        {
+            int y = p.Y;
+            int calculatedLatitude;
+            int latitude = 0;
+            if (y < equator) // if our location is north of the equator
+            {
+                calculatedLatitude = (90 - (y * 180) / SCREEN_HEIGHT);
+            }
+            else            // if our location is south of the equator
+            {
+                calculatedLatitude = (((y * 180) / SCREEN_HEIGHT) - 90);
+            }
+            if(Math.Abs(calculatedLatitude) >= 67)
+                latitude = 4;
+            else if((Math.Abs(calculatedLatitude) >= 37) && (Math.Abs(calculatedLatitude) <= 66))
+                latitude = 3;
+            else if((Math.Abs(calculatedLatitude) >=23) && (Math.Abs(calculatedLatitude) <= 36))
+                latitude = 2;
+            else
+                latitude = 1;
+            return latitude.ToString("D2");
+        }
+
+
         
         public string Slope(Point p)
         {
@@ -204,22 +255,5 @@ namespace Brave_New_World
             }
             return substrate.ToString("D2");
         }
-
-        public string Latitude(Point p)
-        {
-            int y = p.Y;
-            int latitude;
-            if(y < equator) // if our location is north of the equator
-            {
-                latitude = (90 - (y * 180) / SCREEN_HEIGHT);
-            }
-            else            // if our location is south of the equator
-            {
-                latitude = (((y * 180) / SCREEN_HEIGHT) - 90);
-            }
-            return latitude.ToString("D2");
-        }
-
-
     }
 }
