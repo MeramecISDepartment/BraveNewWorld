@@ -119,7 +119,7 @@ namespace ClassProject
             {
                 // resets the "List Of Drawing Points"
                 listOfDrawingPoints = new List<List<System.Drawing.Point>>();
-                foreach (List<System.Windows.Point> list in mesh.Points)
+                foreach (List<System.Windows.Point> list in mesh.RawPoints)
                 {
                     // resets the "Drawing Points"
                     drawingPoints = new List<System.Drawing.Point>();
