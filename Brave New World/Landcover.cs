@@ -35,7 +35,8 @@ namespace Brave_New_World
 
 
 
-        // climate, latitude, altitude, slope, substrate, aspect
+        // build key from: latitude, altitude, slope, substrate, aspect
+        // use key to get climate from table
         // constructor
         public Biome(Point[] locations, int rounds)
         {
