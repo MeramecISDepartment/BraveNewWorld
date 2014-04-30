@@ -28,7 +28,7 @@ namespace VectorLandMesh.Data
             Type returnObject = default(Type);
             
             //if the list is not equal to null and and is less then number of object in the list set the "Return Object" to it.
-            if (list != null & list.Count < index)
+            if (list != null & list.Count !=0 & list.Count > index)
                 returnObject = list[index];
 
             //return the object
