@@ -1,0 +1,82 @@
+{
+    "rainforest": {
+        "latitude": ["01", "02"],
+		"altitude": ["01", "02"],
+		"slope": ["1", "2"],
+		"substrate": ["2", "3", "4"],
+		"aspect": ["1", "3", "4", "5", "7", "9"],
+		"color": ["", "", ""]
+		},
+	"arid": {
+		"latitude": "00",
+		"altitude": "00",
+		"slope": ["01", "02"],
+		"substrate": ["01", "02"],
+		"aspect": "00"
+		"color": ["", "", ""]
+		},
+	"dry temperate": {
+		"latitude": "03",
+		"altitude": "01",
+		"slope": "01",
+		"substrate": ["01", "02"],
+		"aspect": "00",
+		"color": ["", "", ""],
+		},
+	"humid temperate": {
+		"latitude": "03",
+		"altitude": "01",
+		"slope": "02",
+		"substrate": ["01", "02", "03", "04"],
+		"aspect": "00",
+		"color": ["", "", ""]
+		},
+	"cool temperate": {
+		"latitude": "03",
+		"altitude": ["02", "03"],
+		"slope": "02",
+		"substrate": ["01", "02", "03", "04"],
+		"aspect": ["01", "02", "03", "08"],
+		"color": ["", "", ""]
+		}
+	"alpine": {
+		"latitude": "00",
+		"altitude": "03",
+		"slope": "03",
+		"substrate": ["01", "03", "04"],
+		"aspect": "00",
+		"color": ["", "", ""]
+		}
+	"polar": {
+		"latitude": "04",
+		"altitude": "01",
+		"slope": "00",
+		"substrate": "00",
+		"aspect": "00",
+		"color": ["", "", ""]
+		
+	
+		
+		
+		
+		
+		"example glossary",
+		"GlossDiv": {
+            "title": "S",
+			"GlossList": {
+                "GlossEntry": {
+                    "ID": "SGML",
+					"SortAs": "SGML",
+					"GlossTerm": "Standard Generalized Markup Language",
+					"Acronym": "SGML",
+					"Abbrev": "ISO 8879:1986",
+					"GlossDef": {
+                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
+						"GlossSeeAlso": ["GML", "XML"]
+                    },
+					"GlossSee": "markup"
+                }
+            }
+        }
+    }
+}
