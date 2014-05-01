@@ -12,7 +12,7 @@
 		"altitude": "00",
 		"slope": ["01", "02"],
 		"substrate": ["01", "02"],
-		"aspect": "00"
+		"aspect": "00",
 		"color": ["", "", ""]
 		},
 	"dry temperate": {
@@ -21,7 +21,7 @@
 		"slope": "01",
 		"substrate": ["01", "02"],
 		"aspect": "00",
-		"color": ["", "", ""],
+		"color": ["", "", ""]
 		},
 	"humid temperate": {
 		"latitude": "03",
@@ -38,7 +38,7 @@
 		"substrate": ["01", "02", "03", "04"],
 		"aspect": ["01", "02", "03", "08"],
 		"color": ["", "", ""]
-		}
+		},
 	"alpine": {
 		"latitude": "00",
 		"altitude": "03",
@@ -46,7 +46,7 @@
 		"substrate": ["01", "03", "04"],
 		"aspect": "00",
 		"color": ["", "", ""]
-		}
+		},
 	"polar": {
 		"latitude": "04",
 		"altitude": "01",
@@ -54,29 +54,5 @@
 		"substrate": "00",
 		"aspect": "00",
 		"color": ["", "", ""]
-		
-	
-		
-		
-		
-		
-		"example glossary",
-		"GlossDiv": {
-            "title": "S",
-			"GlossList": {
-                "GlossEntry": {
-                    "ID": "SGML",
-					"SortAs": "SGML",
-					"GlossTerm": "Standard Generalized Markup Language",
-					"Acronym": "SGML",
-					"Abbrev": "ISO 8879:1986",
-					"GlossDef": {
-                        "para": "A meta-markup language, used to create markup languages such as DocBook.",
-						"GlossSeeAlso": ["GML", "XML"]
-                    },
-					"GlossSee": "markup"
-                }
-            }
-        }
     }
 }

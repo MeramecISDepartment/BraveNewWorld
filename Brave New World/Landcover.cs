@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.IO;
+
 //using System.Convert;
 
 namespace Brave_New_World
@@ -33,7 +35,7 @@ namespace Brave_New_World
         public string[] m_key;
         string m_customKey = "";
 
-
+        string text = System.IO.File.ReadAllText(@"C:\Users\Keith\Projects\brave-new-world\biome_data.json");
 
         // build key from: latitude, altitude, slope, substrate, aspect
         // use key to get climate from table
@@ -47,7 +49,7 @@ namespace Brave_New_World
             string substrate = "";
 
             // Substrate(int latitude, int altitude, int slope)
-
+            System.IO.File.WriteAllText(@"C:\Users\Keith\Projects\WriteText.txt", text);
             m_locations = locations;
             roundsOfGeneration = rounds;
 
