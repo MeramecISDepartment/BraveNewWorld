@@ -1,6 +1,6 @@
 ﻿namespace ClassProject
 {
-    partial class MapDisplay
+    partial class frmMapDisplay
     {
         /// <summary>
         /// Required designer variable.
@@ -53,12 +53,13 @@
             this.btnDraw.UseVisualStyleBackColor = true;
             this.btnDraw.Click += new System.EventHandler(this.btnDraw_Click);
             // 
-            // MapDisplay
+            // frmMapDisplay
             // 
             this.ClientSize = new System.Drawing.Size(762, 545);
             this.Controls.Add(this.btnDraw);
             this.Controls.Add(this.picboxDrawing);
-            this.Name = "MapDisplay";
+            this.Name = "frmMapDisplay";
+            this.Load += new System.EventHandler(this.frmMapDisplay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picboxDrawing)).EndInit();
             this.ResumeLayout(false);
 

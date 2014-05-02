@@ -20,12 +20,12 @@ using System.Windows.Forms;
 using VectorLandMesh.Land;
 namespace ClassProject
 {
-    public partial class MapDisplay : Form
+    public partial class frmMapDisplay : Form
     {
         //Used in Graphics Liabary
         private Graphics drawing;
       
-        public MapDisplay()
+        public frmMapDisplay()
         {
             InitializeComponent();
             drawing = picboxDrawing.CreateGraphics();
@@ -164,6 +164,11 @@ namespace ClassProject
                 }
             }
             #endregion
+
+        }
+
+        private void frmMapDisplay_Load(object sender, EventArgs e)
+        {
 
         }
 
