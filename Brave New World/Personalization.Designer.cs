@@ -39,6 +39,7 @@
             this.txtSeed = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,6 +52,7 @@
             this.lblLevels.Size = new System.Drawing.Size(58, 19);
             this.lblLevels.TabIndex = 1;
             this.lblLevels.Text = "Levels:";
+            this.toolTip1.SetToolTip(this.lblLevels, "Number of contour  on the map");
             // 
             // lblCenterPoints
             // 
@@ -61,6 +63,7 @@
             this.lblCenterPoints.Size = new System.Drawing.Size(66, 19);
             this.lblCenterPoints.TabIndex = 2;
             this.lblCenterPoints.Text = "Meshes:";
+            this.toolTip1.SetToolTip(this.lblCenterPoints, "Number of land masses generated ");
             // 
             // btnSave
             // 
@@ -72,6 +75,7 @@
             this.btnSave.Size = new System.Drawing.Size(90, 22);
             this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
+            this.toolTip1.SetToolTip(this.btnSave, "Save changes");
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -84,6 +88,7 @@
             this.btnExit.Size = new System.Drawing.Size(91, 22);
             this.btnExit.TabIndex = 6;
             this.btnExit.Text = "Exit";
+            this.toolTip1.SetToolTip(this.btnExit, "Cancel changes");
             this.btnExit.UseVisualStyleBackColor = false;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
@@ -119,6 +124,7 @@
             this.btnDefault.Size = new System.Drawing.Size(90, 22);
             this.btnDefault.TabIndex = 9;
             this.btnDefault.Text = "Default";
+            this.toolTip1.SetToolTip(this.btnDefault, "Default Settings");
             this.btnDefault.UseVisualStyleBackColor = false;
             this.btnDefault.Click += new System.EventHandler(this.btnDefault_Click);
             // 
@@ -138,6 +144,7 @@
             this.label1.Size = new System.Drawing.Size(49, 19);
             this.label1.TabIndex = 10;
             this.label1.Text = "Seed:";
+            this.toolTip1.SetToolTip(this.label1, "Unique identifier of the map");
             // 
             // errorProvider
             // 
@@ -183,5 +190,6 @@
         private System.Windows.Forms.TextBox txtSeed;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ErrorProvider errorProvider;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

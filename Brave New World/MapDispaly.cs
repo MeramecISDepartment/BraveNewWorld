@@ -106,7 +106,7 @@ namespace ClassProject
             //add a color the color list base on a gray scale.
             for (int i = Levels; i > 0; i--)
             {
-                ColorLevelList.Add(Color.FromArgb(i * 255 / Levels, i * 255 / Levels, i * 255 / Levels));
+                ColorLevelList.Add(Color.FromArgb(i * 0 / Levels, i * 153 / Levels, i * 51 / Levels));
             }
             #endregion
             #region Change Form Display
