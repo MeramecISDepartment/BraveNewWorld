@@ -43,7 +43,7 @@ namespace ClassProject
 
         private void btnDefault_Click(object sender, EventArgs e)
         {
-            txtLevels.Text = frmMapDisplay.DefualtLevels.ToString();
+            txtLevels.Text = frmMapDisplay.DefaultLevels.ToString();
             cmbMeshLevel.SelectedIndex = 1;
             txtSeed.Text = "";
         }

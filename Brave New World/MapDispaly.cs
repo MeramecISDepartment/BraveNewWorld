@@ -28,7 +28,7 @@ namespace ClassProject
             /// <summary>
             /// The Default number of levels
             /// </summary>
-            public static int DefualtLevels{ get{return 32;} }
+            public static int DefaultLevels{ get{return 32;} }
 
             /// <summary>
             /// Color list each level of the hight map.
@@ -43,7 +43,7 @@ namespace ClassProject
             /// <summary>
             /// Number of points on each Contour | Number of levels on a map.
             /// </summary>
-            public static int Detail = 16, Levels = DefualtLevels;
+            public static int Detail = 16, Levels = DefaultLevels;
 
             /// <summary>
             /// test for map data. will be set in to class List
@@ -62,9 +62,9 @@ namespace ClassProject
             public static bool useSeed = false;
         #endregion
             /// <summary>
-            /// The Personalization Form used to customize the Geniration.
+            /// The Personalization Form used to customize the Generation.
             /// </summary>
-            private frmPersonalization frmPersonzlize;
+            private frmPersonalization frmPersonalize;
         public frmMapDisplay()
         {
             InitializeComponent();
@@ -75,7 +75,7 @@ namespace ClassProject
         /// </summary>
         private void generateMap()
         {
-            #region Terrain Generation Veriables
+            #region Terrain Generation Variables
             //number of current meshes on each level.
             int meshOnLevel = 0;
 
@@ -84,21 +84,21 @@ namespace ClassProject
             LandMesh land;
             #endregion
 
-            #region Progress Bar Veriables
+            #region Progress Bar variables
             int numberOfContours = 0;
             #endregion
 
-            #region Point Type Conversion Veriables
+            #region Point Type Conversion Variables
             //list of Points used to draw the Map at Each Level.
             List<List<System.Drawing.Point>> listOfDrawingPoints;
             List<System.Drawing.Point> drawingPoints;
             List<List<List<System.Drawing.Point>>> drawingMapData = new List<List<List<System.Drawing.Point>>>();
             #endregion
 
-            #region Drawing Veriables
-            //ofsets for each point to ensure points are drawn corectly. "Refer to Notes"[AKA Set up notes and as me in class about this it is kind of complicated.]
+            #region Drawing variables
+            //ofsets for each point to ensure points are drawn corectly. "Refer to Notes"[AKA Set up notes and ask me in class about this it is kind of complicated.]
             List<int> offsets = new List<int>();
-            // "Y - offset refer to above note"[AKA Set up notes and as me in class about this it is kind of complicated.]
+            // "Y - offset refer to above note"[AKA Set up notes and ask me in class about this it is kind of complicated.]
             int y2 = 0;
             #endregion
 
@@ -126,7 +126,7 @@ namespace ClassProject
             #endregion
 
             #region Terrain Generation          
-            //grabs a first randum number form an odds map... but not zero.
+            //grabs a first randum number from an odds map... but not zero.
             while (meshOnLevel == 0)
             {
                 meshOnLevel = OddsMap[Map.MapSeed.Next(0, OddsMap.Length - 1)];
@@ -147,7 +147,7 @@ namespace ClassProject
                     mapMeshData.Add(land);
                 }
 
-                //grabs a randum number form an odds map.
+                //grabs a randum number from an odds map.
                 meshOnLevel = OddsMap[Map.MapSeed.Next(0, OddsMap.Length - 1)];
             }
             
@@ -164,8 +164,8 @@ namespace ClassProject
             #endregion
 
             /*
-             * Points in Visual C# Forms are System.Drawing.Point(X and Y are int values)
-             * Points in LandMesh Classare System.Windows.Point(X and Y are Decimal values)
+             * Points in Visual C# Forms are System.Drawing.Point (X and Y are int values)
+             * Points in LandMesh Class are System.Windows.Point (X and Y are decimal values)
              * So they need to be converted.
              */
             #region Point Type Conversion
@@ -230,12 +230,12 @@ namespace ClassProject
 
         private void personalizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (frmPersonzlize == null || frmPersonzlize.IsDisposed)
+            if (frmPersonalize == null || frmPersonalize.IsDisposed)
             {
-                frmPersonzlize = new frmPersonalization();
+                frmPersonalize = new frmPersonalization();
             }
 
-            frmPersonzlize.Show();
+            frmPersonalize.Show();
         }
     }
 }
