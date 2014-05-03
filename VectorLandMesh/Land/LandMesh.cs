@@ -12,7 +12,6 @@ namespace VectorLandMesh.Land
     /// </summary>
     public class LandMesh
     {
-
         #region Private Properties
         /// <summary>
         /// A List of Contours for each level of the map.
@@ -131,6 +130,7 @@ namespace VectorLandMesh.Land
         /// <param name="levels">The number of levels on a mesh.</param>
         public LandMesh(Point minMaxVectorLength, double heightScaling, int levels)
         {
+            //initialize the land mesh
             this.Initialize(new List<Point> { minMaxVectorLength }, new List<double> { heightScaling }, levels);
         }
 
@@ -140,6 +140,7 @@ namespace VectorLandMesh.Land
             {
                 levels = Math.Max(minMaxVectorLength.Count, heightScaling.Count);
             }
+            //initialize the land mesh
             this.Initialize(minMaxVectorLength, heightScaling, levels);
         }
 
@@ -149,15 +150,18 @@ namespace VectorLandMesh.Land
             {
                 levels = minMaxVectorLength.Count;
             }
+            //initialize the land mesh
             this.Initialize(minMaxVectorLength, new List<double> { heightScaling }, levels);
         }
 
         public LandMesh(Point minMaxVectorLength, List<double> heightScaling, int levels=0)
         {
+            //if the number of levels 
             if (levels == 0)
             {
                 levels = heightScaling.Count;
             }
+            //initialize the land mesh
             this.Initialize(new List<Point> { minMaxVectorLength }, heightScaling, levels);
         }
 

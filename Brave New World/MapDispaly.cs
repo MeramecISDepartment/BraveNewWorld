@@ -1,23 +1,15 @@
 ﻿using System;
-
 using System.Collections.Generic;
-
 using System.ComponentModel;
-
 using System.Data;
-
 using System.Drawing;
-
 using System.Linq;
-
 using System.Text;
-
 using System.Threading.Tasks;
-
 using System.Windows;
 using System.Windows.Forms;
-
 using VectorLandMesh.Land;
+
 namespace ClassProject
 {
     public partial class frmMapDisplay : Form
@@ -67,6 +59,7 @@ namespace ClassProject
             private frmPersonalization frmPersonzlize;
         public frmMapDisplay()
         {
+            useSeed = false;
             InitializeComponent();
             drawing = picboxDrawing.CreateGraphics();
         }
@@ -85,6 +78,7 @@ namespace ClassProject
             #endregion
 
             #region Progress Bar Veriables
+            // A counter for the number of Contours to be added to the progress bar.
             int numberOfContours = 0;
             #endregion
 
@@ -109,7 +103,9 @@ namespace ClassProject
                 ColorLevelList.Add(Color.FromArgb(i * 255 / Levels, i * 255 / Levels, i * 255 / Levels));
             }
             #endregion
+
             #region Change Form Display
+            //change the lable to tell the user it is Generating Terrain and Hide the progressbar
                 stripLblStatus.Text = "Generating Terrain";
                 stripProgressbar.Visible = false;
             #endregion
@@ -118,7 +114,7 @@ namespace ClassProject
             //Clear drawing area.
             drawing.Clear(Color.Blue);
 
-            //Initialize the map
+            //Initialize the map if there is a seed use it.
             if (useSeed)
                 Map.InitializeMap(Detail, new float[] { drawing.VisibleClipBounds.X, drawing.VisibleClipBounds.Y, drawing.VisibleClipBounds.Width, drawing.VisibleClipBounds.Height }, SeedValue);
             else
@@ -154,12 +150,15 @@ namespace ClassProject
             #endregion
 
             #region Change Form Display
+            //set label to tell the user it is drawing the Terrain and display the progress bar.
             stripLblStatus.Text = "Drawing Terrain";
             stripProgressbar.Visible = true;
+            //count the number of Contours on each mesh.
             foreach (LandMesh mesh in mapMeshData)
             {
                 numberOfContours+= mesh.NumberOfContours;
             }
+            //set the max value of the progressbar to the count.
             stripProgressbar.Maximum = numberOfContours;
             #endregion
 
@@ -191,18 +190,24 @@ namespace ClassProject
             #endregion
 
             #region Drawing
+            //for each level
             for (int y = Levels; y > 0; y--)
             {
-
+                //and foreach contour on the map
                 for (int x = 0; x < mapMeshData.Count; x++)
                 {
+                    //for the first
                     if (y == Levels)
                     {
+                        //add the current level minus the number of levels to an offset value
                         offsets.Add(y - mapMeshData[x].NumberOfLevel);
                     }
+                    //set new y value to old y value minus offset.
                     y2 = y - offsets[x];
+                    //if the new y value is > 0 then it will not continue because that mesh dose not have a contour on that level.
                     if (y2 > 0)
                     {
+                        //draw the contour and add one to the value of the
                         System.Drawing.Point[] myPoints = drawingMapData[x][y2 - 1].ToArray<System.Drawing.Point>();
                         drawing.FillClosedCurve(new SolidBrush(ColorLevelList[y - 1]), myPoints);// how to graph the shape using the array of points
                         stripProgressbar.PerformStep();
@@ -212,6 +217,7 @@ namespace ClassProject
             #endregion
 
             #region Change Form Display
+            //display to the user the generation has finished and reset the progress bar.
             stripLblStatus.Text = "Finished";
             stripProgressbar.Value=0;
             stripProgressbar.Visible = false;
@@ -220,16 +226,19 @@ namespace ClassProject
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //exit the Application
             Application.Exit();
         }
 
         private void displayToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Generate the Map
             generateMap();
         }
 
         private void personalizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //if the Personzlize form is not created yet or has been closed create a new form and show it.
             if (frmPersonzlize == null || frmPersonzlize.IsDisposed)
             {
                 frmPersonzlize = new frmPersonalization();
