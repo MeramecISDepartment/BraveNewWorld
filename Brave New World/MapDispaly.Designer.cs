@@ -78,7 +78,7 @@
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -96,6 +96,7 @@
             this.personalizeToolStripMenuItem.Name = "personalizeToolStripMenuItem";
             this.personalizeToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.personalizeToolStripMenuItem.Text = "Personalize";
+            this.personalizeToolStripMenuItem.ToolTipText = "Change Settings";
             this.personalizeToolStripMenuItem.Click += new System.EventHandler(this.personalizeToolStripMenuItem_Click);
             // 
             // displayToolStripMenuItem
@@ -104,6 +105,7 @@
             this.displayToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
             this.displayToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.displayToolStripMenuItem.Text = "Display";
+            this.displayToolStripMenuItem.ToolTipText = "Display land generated";
             this.displayToolStripMenuItem.Click += new System.EventHandler(this.displayToolStripMenuItem_Click);
             // 
             // statusStrip
@@ -143,6 +145,7 @@
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this.menuStrip;
+            this.MaximizeBox = false;
             this.Name = "frmMapDisplay";
             ((System.ComponentModel.ISupportInitialize)(this.picboxDrawing)).EndInit();
             this.menuStrip.ResumeLayout(false);
