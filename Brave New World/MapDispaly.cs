@@ -18,7 +18,7 @@ using System.Windows;
 using System.Windows.Forms;
 
 using VectorLandMesh.Land;
-namespace ClassProject
+namespace Brave_New_World
 {
     public partial class MapDisplay : Form
     {

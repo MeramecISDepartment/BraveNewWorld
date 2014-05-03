@@ -1,4 +1,4 @@
-﻿namespace ClassProject
+﻿namespace Brave_New_World
 {
     partial class MapDisplay
     {
