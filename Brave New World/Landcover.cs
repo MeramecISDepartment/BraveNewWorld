@@ -16,6 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.IO;
+using System.Net;
+using Newtonsoft.Json;
 
 //using System.Convert;
 
@@ -34,8 +36,27 @@ namespace Brave_New_World
         Point[] m_locations;
         public string[] m_key;
         string m_customKey = "";
+        string path = "C:\\Users\\Keith\\Projects\\brave-new-world\\biome_data.json";
+        string json = System.IO.File.ReadAllText(@"C:\Users\Keith\Projects\brave-new-world\biome_data.json");
+  //      JsonTextReader reader = new JsonTextReader(new StringReader(json));
+  //      JObject rss = JObject.Parse(json);
 
-        string text = System.IO.File.ReadAllText(@"C:\Users\Keith\Projects\brave-new-world\biome_data.json");
+        private static T _download_serialized_json_data<T>(string path) where T : new()
+        {
+            using (var w = new WebClient())
+            {
+                var json_data = string.Empty;
+                // attempt to download JSON data as a string
+                try
+                {
+                    json_data = w.DownloadString(path);
+                }
+                catch (Exception) { }
+                // if string with JSON data is not empty, deserialize it to class and return its instance 
+                return !string.IsNullOrEmpty(json_data) ? JsonConvert.DeserializeObject<T>(json_data) : new T();
+            }
+        }
+
 
         // build key from: latitude, altitude, slope, substrate, aspect
         // use key to get climate from table
@@ -49,7 +70,7 @@ namespace Brave_New_World
             string substrate = "";
 
             // Substrate(int latitude, int altitude, int slope)
-            System.IO.File.WriteAllText(@"C:\Users\Keith\Projects\WriteText.txt", text);
+            System.IO.File.WriteAllText(@"C:\Users\Keith\Projects\WriteText.txt", json);
             m_locations = locations;
             roundsOfGeneration = rounds;
 
@@ -80,8 +101,14 @@ namespace Brave_New_World
         public string FetchBiome(string key)
         {
             string testString = "0104030101";
-            if (key.Equals(testString, StringComparison.Ordinal));
-            return "green";
+            if (key.Equals(testString, StringComparison.Ordinal))
+            {
+                var color = _download_serialized_json_data<Rainforest>(path);
+                return color.ToString(); // "green";
+            }
+            else
+                return "nothing to see here";
+            
         }
 
 

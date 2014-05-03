@@ -40,6 +40,7 @@ namespace Brave_New_World
 
             Biome biome = new Biome(points, 16);
 
+
             //txt_keyOutput.SelectedText = biome.GetCustomKey();
 
             txt_keyOutput.SelectedText = biome.m_key[0];
@@ -51,7 +52,6 @@ namespace Brave_New_World
             txt_biome6.SelectedText = biome.m_key[6];
             txt_biome7.SelectedText = biome.m_key[7];
             txt_test1.SelectedText = biome.FetchBiome(biome.m_key[0]);
-        
         
         }
 
