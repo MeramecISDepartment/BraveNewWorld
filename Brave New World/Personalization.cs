@@ -12,35 +12,58 @@ namespace ClassProject
 {
     public partial class frmPersonalization : Form
     {
+        /// <summary>
+        /// if the user choses Low, Med, High. the random number will be sellected between thes numbers.
+        /// </summary>
         private int[] OddsMapLow  = { 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 3, 3, 4 };
         private int[] OddsMapMid  = { 0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4 };
         private int[] OddsMapHigh = { 0, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4 };
+
+        /// <summary>
+        /// On Form Close will the form save.
+        /// </summary>
+        private bool saveOnClose = true;
+
+        /// <summary>
+        ///text value of the random seed. 
+        /// </summary>
         private static string seed ="";
-        private static int meshAmount = 1;
+
+        /// <summary>
+        /// number of levels on the map.
+        /// </summary>
+        private static int meshAmount = 0;
 
         public frmPersonalization()
         {
             InitializeComponent();
         }
-
         private void btnExit_Click(object sender, EventArgs e)
         {
-            frmPersonalization_Load(sender, e);
+            saveOnClose = false;
             this.Close();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void frmPersonalization_Load(object sender, EventArgs e)
         {
             txtLevels.Text = frmMapDisplay.Levels.ToString();
             txtSeed.Text = frmPersonalization.seed;
             cmbMeshLevel.SelectedIndex = frmPersonalization.meshAmount;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         private void btnDefault_Click(object sender, EventArgs e)
         {
             txtLevels.Text = frmMapDisplay.DefaultLevels.ToString();
@@ -48,43 +71,51 @@ namespace ClassProject
             txtSeed.Text = "";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void frmPersonalization_FormClosing(object sender, FormClosingEventArgs e)
         {
-            frmMapDisplay.Levels = int.Parse(txtLevels.Text);
-            switch (cmbMeshLevel.SelectedIndex)
+            if (saveOnClose)
             {
-                case 0:
-                    frmMapDisplay.OddsMap = OddsMapLow;
-                    break;
-                case 1:
-                    frmMapDisplay.OddsMap = OddsMapMid;
-                    break;
-                case 2:
-                    frmMapDisplay.OddsMap = OddsMapHigh;
-                    break;
-            }
-            frmMapDisplay.useSeed = true;
-            if (txtSeed.Text == "")
-            {
-                frmMapDisplay.useSeed = false;
-            }
-            else
-            {
-                //try to convert txtSeed to an integer if it fails it will convert it in to its Hash Code Equivalent
-                if (!int.TryParse(txtSeed.Text, out frmMapDisplay.SeedValue))
+                frmMapDisplay.Levels = int.Parse(txtLevels.Text);
+                //set the odds map of the generated map equal to High, Medium, Low settings
+                switch (cmbMeshLevel.SelectedIndex)
                 {
-                    frmMapDisplay.SeedValue = txtSeed.Text.GetHashCode();
+                    case 0:
+                        frmMapDisplay.OddsMap = OddsMapLow;
+                        break;
+                    case 1:
+                        frmMapDisplay.OddsMap = OddsMapMid;
+                        break;
+                    case 2:
+                        frmMapDisplay.OddsMap = OddsMapHigh;
+                        break;
                 }
+                //sets the seed to being used if you
+                
+                if (txtSeed.Text != "")
+                {
+                    frmMapDisplay.useSeed = true;
+                    //try to convert txtSeed to an integer if it fails it will convert it in to its Hash Code Equivalent
+                    if (!int.TryParse(txtSeed.Text, out frmMapDisplay.SeedValue))
+                    {
+                        frmMapDisplay.SeedValue = txtSeed.Text.GetHashCode();
+                    }
+                }
+                frmPersonalization.seed=txtSeed.Text;
+                frmPersonalization.meshAmount=cmbMeshLevel.SelectedIndex;
             }
-            frmPersonalization.seed=txtSeed.Text;
-            frmPersonalization.meshAmount=cmbMeshLevel.SelectedIndex;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void txtLevels_TextChanged(object sender, EventArgs e)
         {
             int textValue=0;
             
-            if(int.TryParse(txtLevels.Text, out textValue) & ( textValue <= 0 ||textValue >= 256))
+            if(int.TryParse(txtLevels.Text, out textValue) & ( textValue <= 0 ||textValue > 256))
             {
                 btnSave.Enabled = false;
                 errorProvider.SetError(txtLevels, "Not A Valid Number Between 1 and 256");
@@ -92,6 +123,8 @@ namespace ClassProject
             else
                 btnSave.Enabled = true;
             
-        }        
+        }
+
+     
     }
 }

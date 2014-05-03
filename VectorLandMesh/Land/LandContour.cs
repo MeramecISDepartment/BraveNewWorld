@@ -10,14 +10,14 @@ namespace VectorLandMesh.Land
     public class LandContour
     {
         /// <summary>
-        /// 
+        /// The Center Point of The Mesh
         /// </summary>
-        private Point Center{get;set;}
+        public Point Center{get;set;}
 
         /// <summary>
-        /// 
+        /// List of 
         /// </summary>
-        private List<double> scaler = new List<double>();
+        private List<double> scaleList = new List<double>();
         
         /// <summary>
         /// The Height Level the Contor.
@@ -34,7 +34,7 @@ namespace VectorLandMesh.Land
         }
         public List<double> Scales { 
             get{
-                return scaler;
+                return scaleList;
             }
         }
         public List<Point> RawPoints{
@@ -49,8 +49,8 @@ namespace VectorLandMesh.Land
             {
                 delta = Math.PI * (i / halfradius);
 
-                x = Center.X + (Math.Cos(delta) * scaler[i - 1]);
-                y = Center.Y + (Math.Sin(delta) * scaler[i - 1]);
+                x = Center.X + (Math.Cos(delta) * scaleList[i - 1]);
+                y = Center.Y + (Math.Sin(delta) * scaleList[i - 1]);
                 points.Add(new Point(x, y));
 
             }
@@ -73,7 +73,7 @@ namespace VectorLandMesh.Land
                 min = scale.X + offset;
                 max = scale.Y + offset;
                 int scaleValue = Map.MapSeed.Next((int)min, (int)max);
-                this.scaler.Add(scaleValue);
+                this.scaleList.Add(scaleValue);
             }
                 Height = height;
 

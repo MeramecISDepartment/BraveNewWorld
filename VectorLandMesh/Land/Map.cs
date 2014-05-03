@@ -18,9 +18,8 @@ namespace VectorLandMesh.Land
         public static float[] Box { get; set; }
 
         /// <summary>
-        /// 
+        /// The number of Vectors on each Contour
         /// </summary>
-        /// 
         public static int Detail { get; set; }
         public static void InitializeMap(int detail, float[] box)
         {
