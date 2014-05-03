@@ -13,7 +13,13 @@ namespace VectorLandMesh.Land
     public class LandMesh
     {
 
-        #region Properties
+        #region Private Properties
+        /// <summary>
+        /// A List of Contours for each level of the map.
+        /// </summary>
+        private List<LandContour> LandVectorData { get; set; }
+        #endregion
+        #region Public Properties
         /// <summary>
         /// A List of Points to define a min and max range between each level in a Mesh.
         /// Point x = min
@@ -49,11 +55,6 @@ namespace VectorLandMesh.Land
         }
 
         /// <summary>
-        /// A List of Contours for each level of the map.
-        /// </summary>
-        public List<LandContour> LandVectorData { get; private set; }
-
-        /// <summary>
         /// Central point of Mesh on the XZ Plane.
         /// </summary>
         public Point CenterPoint { get; set; }
@@ -76,8 +77,14 @@ namespace VectorLandMesh.Land
                 return rawPoints;
             }
         }
-        #endregion
-            
+        /// <summary>
+        /// The number of Contours on the Mesh.
+        /// </summary>
+        public int NumberOfContours
+        {
+           get{ return LandVectorData.Count;}
+        }
+        #endregion   
         #region Public Methods
 
         /// <summary>
