@@ -31,6 +31,7 @@ namespace BiomeGeneration
         private int roundsOfGeneration;
         Point[] m_locations;
         public string[] m_key;
+        public string[] m_climates;
         string m_customKey = "";
 
 
@@ -53,6 +54,7 @@ namespace BiomeGeneration
 
             string[] keys = new string[m_locations.Length];
                 m_key = new string[m_locations.Length];
+                m_climates = new string[m_locations.Length];
 
             for(int i = 0; i < m_locations.Length; i++)
             {
@@ -66,10 +68,13 @@ namespace BiomeGeneration
                 SetCustomKey(latitude, altitude, slope, substrate, aspect);
 
                 m_key[i] = GetCustomKey(); // keys[i];
-                string climate = Climate.ClimateLookup(m_key[i]);
 
-         //       m_customKey = GetCustomKey();
-         //       keys[i] = m_customKey;
+                BiomeLookup pointClimate = new BiomeLookup();
+                m_climates[i] = pointClimate.ClimateLookup(m_key[i]);
+
+                
+                m_customKey = GetCustomKey();
+                keys[i] = m_customKey;
 
             }
 
@@ -77,13 +82,13 @@ namespace BiomeGeneration
 
 
 
-        public string FetchBiome(string key)
+   /*     public string FetchBiome(string key)
         {
             string testString = "0104030101";
             if (key.Equals(testString, StringComparison.Ordinal));
 
             return "green";
-        }
+        } */
 
 
 
