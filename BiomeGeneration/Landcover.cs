@@ -65,10 +65,12 @@ namespace BiomeGeneration
 
                 SetCustomKey(latitude, altitude, slope, substrate, aspect);
 
+                m_key[i] = GetCustomKey(); // keys[i];
+                string climate = Climate.ClimateLookup(m_key[i]);
+
          //       m_customKey = GetCustomKey();
          //       keys[i] = m_customKey;
 
-                m_key[i] = GetCustomKey(); // keys[i];
             }
 
         }
