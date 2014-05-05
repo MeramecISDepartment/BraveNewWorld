@@ -44,15 +44,15 @@ namespace Brave_New_World
 
             //txt_keyOutput.SelectedText = biome.GetCustomKey();
 
-            txt_keyOutput.SelectedText = biome.m_key[0];
-            txt_biome1.SelectedText = biome.m_key[1];
+            txt_keyOutput.SelectedText = biome.m_climates[0];
+            txt_biome1.SelectedText = biome.m_climates[1];
             txt_biome2.SelectedText = biome.m_climates[2];
             txt_biome3.SelectedText = biome.m_climates[3];
-            txt_biome4.SelectedText = biome.m_key[4];
-            txt_biome5.SelectedText = biome.m_key[5];
+            txt_biome4.SelectedText = biome.m_climates[4];
+            txt_biome5.SelectedText = biome.m_climates[5];
             txt_biome6.SelectedText = biome.m_climates[6];
             txt_biome7.SelectedText = biome.m_climates[7];
-  //          txt_test1.SelectedText = biome.FetchBiome(biome.m_key[0]);
+  //          txt_test1.SelectedText = biome.FetchBiome(biome.m_climates[0]);
         
         
         }

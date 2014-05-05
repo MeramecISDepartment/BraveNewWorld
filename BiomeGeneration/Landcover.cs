@@ -70,8 +70,8 @@ namespace BiomeGeneration
                 m_key[i] = GetCustomKey(); // keys[i];
 
                 BiomeLookup pointClimate = new BiomeLookup();
-//                m_climates[i] = pointClimate.ClimateLookup(m_key[i]);
-                m_climates[i] = pointClimate.ClimateLookup("0101010404");
+                m_climates[i] = pointClimate.ClimateLookup(m_key[i]);
+ //               m_climates[i] = pointClimate.ClimateLookup("0101010404");
               
                 m_customKey = GetCustomKey();
                 keys[i] = m_customKey;
