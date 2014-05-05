@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using VectorLandMesh.Land;
+using System.Threading;
 
 namespace ClassProject
 {
     public partial class frmMapDisplay : Form
     {
-        //Used in Graphics Liabary
+        //Used by Graphics Library
         private Graphics drawing;
         #region User Interactive Properties
             /// <summary>
@@ -64,7 +65,7 @@ namespace ClassProject
             drawing = picboxDrawing.CreateGraphics();
         }
         /// <summary>
-        /// 
+        /// Generate the Map on Display
         /// </summary>
         private void generateMap()
         {
@@ -91,9 +92,9 @@ namespace ClassProject
             #endregion
 
             #region Drawing variables
-            //ofsets for each point to ensure points are drawn corectly. "Refer to Notes"[AKA Set up notes and ask me in class about this it is kind of complicated.]
+            //offsets for each level to ensure the Meshes are drawn correctly.
             List<int> offsets = new List<int>();
-            // "Y - offset refer to above note"[AKA Set up notes and ask me in class about this it is kind of complicated.]
+            // "Copy of y value when drawing Points.
             int y2 = 0;
             #endregion
 
@@ -123,7 +124,7 @@ namespace ClassProject
             #endregion
 
             #region Terrain Generation          
-            //grabs a first randum number from an odds map... but not zero.
+            //grabs a first random number from an odds map... but not zero.
             while (meshOnLevel == 0)
             {
                 meshOnLevel = OddsMap[Map.MapSeed.Next(0, OddsMap.Length - 1)];
@@ -144,7 +145,7 @@ namespace ClassProject
                     mapMeshData.Add(land);
                 }
 
-                //grabs a randum number from an odds map.
+                //grabs a random number from an odds map.
                 meshOnLevel = OddsMap[Map.MapSeed.Next(0, OddsMap.Length - 1)];
             }
             
@@ -159,7 +160,7 @@ namespace ClassProject
             {
                 numberOfContours+= mesh.NumberOfContours;
             }
-            //set the max value of the progressbar to the count.
+            //set the max value of the progress bar to the count.
             stripProgressbar.Maximum = numberOfContours;
             #endregion
 
@@ -194,7 +195,7 @@ namespace ClassProject
             //for each level
             for (int y = Levels; y > 0; y--)
             {
-                //and foreach contour on the map
+                //and for each contour on the map
                 for (int x = 0; x < mapMeshData.Count; x++)
                 {
                     //for the first
@@ -241,7 +242,7 @@ namespace ClassProject
         {
 
             if (frmPersonalize == null || frmPersonalize.IsDisposed)
-            //if the Personzlize form is not created yet or has been closed create a new form and show it.
+            //if the Personalize form is not created yet or has been closed create a new form and show it.
             {
                 frmPersonalize = new frmPersonalization();
             }

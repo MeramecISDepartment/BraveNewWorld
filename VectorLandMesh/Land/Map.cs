@@ -33,15 +33,15 @@ namespace VectorLandMesh.Land
             seed = new Random(seedValue);
         }
         /// <summary>
-        /// 
+        /// Initialize the Seed for generating random values
         /// </summary>
         public static void InitializeSeed()
         {
-
+            //create a new seed.
             seed = new Random();
         }
         /// <summary>
-        /// 
+        /// The Map seed used to generate new random values.
         /// </summary>
         public static Random MapSeed
         {
