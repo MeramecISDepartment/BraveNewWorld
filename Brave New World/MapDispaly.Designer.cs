@@ -59,6 +59,7 @@
             this.Controls.Add(this.btnDraw);
             this.Controls.Add(this.picboxDrawing);
             this.Name = "MapDisplay";
+  //          this.Load += new System.EventHandler(this.MapDisplay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picboxDrawing)).EndInit();
             this.ResumeLayout(false);
 

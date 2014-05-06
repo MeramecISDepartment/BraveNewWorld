@@ -24,14 +24,14 @@ namespace BiomeGeneration
         // Constants
         const int SCREEN_HEIGHT = 486;
         int equator = SCREEN_HEIGHT / 2;
-        const int CONTOUR_INTERVAL = 20;
-        const int MAX_CONTOUR = 20;
+        const int CONTOUR_INTERVAL = 320;  // 520
+        const int MAX_CONTOUR = 17;
 
         // Physical attributes received from mesh generator
-        private int roundsOfGeneration;
+        private int m_roundsOfGeneration;
         Point[] m_locations;
-        public string[] m_key;
-        public string[] m_climates;
+        private string[] m_key = { "class level" };
+        private string[] m_climates;
         string m_customKey = "";
 
 
@@ -48,13 +48,12 @@ namespace BiomeGeneration
             string substrate = "";
 
             // Substrate(int latitude, int altitude, int slope)
-
             m_locations = locations;
-            roundsOfGeneration = rounds;
-
-            string[] keys = new string[m_locations.Length];
+            m_roundsOfGeneration = rounds;
+            string x;
+ //           string[] keys = new string[m_locations.Length];
                 m_key = new string[m_locations.Length];
-                m_climates = new string[m_locations.Length];
+  //              m_climates = new string[m_locations.Length];
 
             for(int i = 0; i < m_locations.Length; i++)
             {
@@ -66,18 +65,29 @@ namespace BiomeGeneration
 
 
                 SetCustomKey(latitude, altitude, slope, substrate, aspect);
+                x = GetCustomKey();
+                m_key[i] = x; // keys[i];
 
-                m_key[i] = GetCustomKey(); // keys[i];
-
-                BiomeLookup pointClimate = new BiomeLookup();
-                m_climates[i] = pointClimate.ClimateLookup(m_key[i]);
- //               m_climates[i] = pointClimate.ClimateLookup("0101010404");
+   //              BiomeLookup pointClimate = new BiomeLookup();
+  //              m_climates[i] = pointClimate.ClimateLookup(m_key[i]);
+   //                            m_climates[i] = pointClimate.ClimateLookup("04010304");
               
-                m_customKey = GetCustomKey();
-                keys[i] = m_customKey;
+   //             m_customKey = GetCustomKey();
+   //             keys[i] = m_customKey;
 
             }
+            m_climates = Climates(m_key);
+        }
 
+        public string[] Climates(string[] keys)
+        {
+            string[] climates = new string[keys.Length];
+            for (int i = 0; i < keys.Length; i++)
+            {
+                BiomeLookup pointClimate = new BiomeLookup();
+                climates[i] = pointClimate.ClimateLookup(keys[i]);
+            }
+                return climates;
         }
 
 
@@ -101,6 +111,16 @@ namespace BiomeGeneration
             return m_customKey;
         }
 
+        public string[] GetClimate()
+        {
+            return m_climates;
+        }
+
+        public string[] GetKeys()
+        {
+            return m_key;
+        }
+
         // member functions
  /*       public int RoundsOfGeneration
         {
@@ -117,7 +137,7 @@ namespace BiomeGeneration
         // the countour is generated. The altitude is the number of rounds remaining.
         public string Altitude(Point p)
         {
-            return  (MAX_CONTOUR - roundsOfGeneration).ToString("D2");
+            return  (MAX_CONTOUR - m_roundsOfGeneration).ToString("D2");
         }
 
 
@@ -168,7 +188,7 @@ namespace BiomeGeneration
         }
 
 
-
+        // Reversing non-zero latitude values (zero didn't change) for demonstration. Need to re-figure logic.
         public string Latitude(Point p)
         {
             double y = p.Y;
@@ -183,13 +203,13 @@ namespace BiomeGeneration
                 calculatedLatitude = (((y * 180) / SCREEN_HEIGHT) - 90);
             }
             if(Math.Abs(calculatedLatitude) >= 67)
-                latitude = 4;
-            else if((Math.Abs(calculatedLatitude) >= 37) && (Math.Abs(calculatedLatitude) <= 66))
-                latitude = 3;
-            else if((Math.Abs(calculatedLatitude) >=23) && (Math.Abs(calculatedLatitude) <= 36))
-                latitude = 2;
-            else
                 latitude = 1;
+            else if((Math.Abs(calculatedLatitude) >= 37) && (Math.Abs(calculatedLatitude) <= 66))
+                latitude = 2;
+            else if((Math.Abs(calculatedLatitude) >=23) && (Math.Abs(calculatedLatitude) <= 36))
+                latitude = 3;
+            else
+                latitude = 4;
             return latitude.ToString("D2");
         }
 
