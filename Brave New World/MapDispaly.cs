@@ -167,6 +167,11 @@ namespace Brave_New_World
 
         }
 
+        private void MapDisplay_Load(object sender, EventArgs e)
+        {
+
+        }
+
         
     }
 }

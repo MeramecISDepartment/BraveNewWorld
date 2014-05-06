@@ -23,17 +23,16 @@ namespace BiomeGeneration
     {
         // Constants
         const int SCREEN_HEIGHT = 486;
-        int equator = SCREEN_HEIGHT / 2;
         const int CONTOUR_INTERVAL = 320;  // 520
         const int MAX_CONTOUR = 17;
+        int equator = SCREEN_HEIGHT / 2;
 
         // Physical attributes received from mesh generator
         private int m_roundsOfGeneration;
-        Point[] m_locations;
+        private Point[] m_locations;
         private string[] m_key = { "class level" };
         private string[] m_climates;
-        string m_customKey = "";
-
+        private string m_customKey = "";
 
 
         // build key from: latitude, altitude, slope, substrate, aspect
@@ -50,10 +49,7 @@ namespace BiomeGeneration
             // Substrate(int latitude, int altitude, int slope)
             m_locations = locations;
             m_roundsOfGeneration = rounds;
-            string x;
- //           string[] keys = new string[m_locations.Length];
-                m_key = new string[m_locations.Length];
-  //              m_climates = new string[m_locations.Length];
+            m_key = new string[m_locations.Length];
 
             for(int i = 0; i < m_locations.Length; i++)
             {
@@ -65,15 +61,7 @@ namespace BiomeGeneration
 
 
                 SetCustomKey(latitude, altitude, slope, substrate, aspect);
-                x = GetCustomKey();
-                m_key[i] = x; // keys[i];
-
-   //              BiomeLookup pointClimate = new BiomeLookup();
-  //              m_climates[i] = pointClimate.ClimateLookup(m_key[i]);
-   //                            m_climates[i] = pointClimate.ClimateLookup("04010304");
-              
-   //             m_customKey = GetCustomKey();
-   //             keys[i] = m_customKey;
+                m_key[i] = GetCustomKey();
 
             }
             m_climates = Climates(m_key);
@@ -92,16 +80,6 @@ namespace BiomeGeneration
 
 
 
-   /*     public string FetchBiome(string key)
-        {
-            string testString = "0104030101";
-            if (key.Equals(testString, StringComparison.Ordinal));
-
-            return "green";
-        } */
-
-
-
         private void SetCustomKey(string latitude, string altitude, string slope, string substrate, string aspect)
         {
             m_customKey = latitude + altitude + slope + substrate + aspect;
@@ -110,6 +88,8 @@ namespace BiomeGeneration
         {
             return m_customKey;
         }
+
+
 
         public string[] GetClimate()
         {
@@ -120,16 +100,6 @@ namespace BiomeGeneration
         {
             return m_key;
         }
-
-        // member functions
- /*       public int RoundsOfGeneration
-        {
-            get { return roundsOfGeneration; }
-            set
-            {
-                roundsOfGeneration = value;
-            }
-        } */
 
 
 
@@ -202,6 +172,7 @@ namespace BiomeGeneration
             {
                 calculatedLatitude = (((y * 180) / SCREEN_HEIGHT) - 90);
             }
+
             if(Math.Abs(calculatedLatitude) >= 67)
                 latitude = 1;
             else if((Math.Abs(calculatedLatitude) >= 37) && (Math.Abs(calculatedLatitude) <= 66))
