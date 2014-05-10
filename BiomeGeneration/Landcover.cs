@@ -1,12 +1,20 @@
 ﻿/********************************************************************************************
  * 
- * Class:       Focus
+ * Class:       Biome
  * Project:     Brave New World
  * Author:      Keith Emery
  * Date:        4/11/14
- * Description: The Focus class comprises an arraylist containing a focus (a point on the map)
- *              and all of the attendant contours (and the physical attributes) that make up 
- *              a feature on the map.
+ * Description: Objects of the Biome class are instantiated with an array of points and an
+ *              integer number of rounds of generation representing the maximum number of
+ *              intervals over which contour levels will be added to the map.
+ *              
+ *              For each point, a 10 digit key is generated based on its latitude, altitude,
+ *              slope, substrate and aspect (all determined by its location on the map and
+ *              within a contour).
+ *              
+ *              The key is then used by the BiomeLookup class to assign a climate to the
+ *              point. Eventually a specific biome can be assigned to the point based on 
+ *              its physical characteristics and climate.
  *              
  * ******************************************************************************************/
 
@@ -30,13 +38,13 @@ namespace BiomeGeneration
         // Physical attributes received from mesh generator
         private int m_roundsOfGeneration;
         private Point[] m_locations;
-        private string[] m_key = { "class level" };
+        private string[] m_keys = { "class level" };
         private string[] m_climates;
         private string m_customKey = "";
 
 
         // build key from: latitude, altitude, slope, substrate, aspect
-        // use key to get climate from table
+        // use key to get climate from array in BiomeLookup
         // constructor
         public Biome(Point[] locations, int rounds)
         {
@@ -49,8 +57,9 @@ namespace BiomeGeneration
             // Substrate(int latitude, int altitude, int slope)
             m_locations = locations;
             m_roundsOfGeneration = rounds;
-            m_key = new string[m_locations.Length];
+            m_keys = new string[m_locations.Length];
 
+            // iterate through the points in the array and determine each characteristic for them
             for(int i = 0; i < m_locations.Length; i++)
             {
                 altitude = Altitude(m_locations[i]);
@@ -59,14 +68,19 @@ namespace BiomeGeneration
                 slope = Slope(m_locations[i]);
                 substrate = Substrate(Convert.ToInt16(latitude), Convert.ToInt16(altitude), Convert.ToInt16(slope));
 
-
+                // SetCustomKey concatenates the physical characteristics into a 10 digit string value
                 SetCustomKey(latitude, altitude, slope, substrate, aspect);
-                m_key[i] = GetCustomKey();
+
+                // The m_keys array contains the keys that correspond to all the points on the contour
+                m_keys[i] = GetCustomKey();
 
             }
-            m_climates = Climates(m_key);
+            // The m_climates array contains the climates that correspond to the keys
+            m_climates = Climates(m_keys);
         }
 
+        // Climates instantiates a BiomeLookup object which receives the array of keys and returns the
+        // corresponding climate values
         public string[] Climates(string[] keys)
         {
             string[] climates = new string[keys.Length];
@@ -79,7 +93,7 @@ namespace BiomeGeneration
         }
 
 
-
+        // Create the key from the codes for the physical characteristics
         private void SetCustomKey(string latitude, string altitude, string slope, string substrate, string aspect)
         {
             m_customKey = latitude + altitude + slope + substrate + aspect;
@@ -90,15 +104,17 @@ namespace BiomeGeneration
         }
 
 
-
+        // Public accessor methods
         public string[] GetClimate()
         {
             return m_climates;
         }
 
+
+
         public string[] GetKeys()
         {
-            return m_key;
+            return m_keys;
         }
 
 
@@ -112,7 +128,9 @@ namespace BiomeGeneration
 
 
 
-        // Assign the 16 directions of the compass rose to a an integer representation of aspect.
+        // Assign the 8 major directions of the compass rose to a an integer representation of aspect.
+        // Although 16 points are used for contour generation, only 8 are used to obtain aspects.
+        // An additonal value "central" is used for interior points.
         public string Aspect(int locationIndex)
         {
             string aspect;
@@ -159,6 +177,8 @@ namespace BiomeGeneration
 
 
         // Reversing non-zero latitude values (zero didn't change) for demonstration. Need to re-figure logic.
+        // Latitude is based on a points location on the map. The y-coordinate is all that matters with respect
+        // to latitude.
         public string Latitude(Point p)
         {
             double y = p.Y;
@@ -173,28 +193,35 @@ namespace BiomeGeneration
                 calculatedLatitude = (((y * 180) / SCREEN_HEIGHT) - 90);
             }
 
-            if(Math.Abs(calculatedLatitude) >= 67)
+            if(Math.Abs(calculatedLatitude) >= 67) // 67 represents the polar circles
                 latitude = 1;
+                // 37 to 66 degrees is the temperate zone
             else if((Math.Abs(calculatedLatitude) >= 37) && (Math.Abs(calculatedLatitude) <= 66))
                 latitude = 2;
+                // 23 to 36 degrees is the subtropical zone
             else if((Math.Abs(calculatedLatitude) >=23) && (Math.Abs(calculatedLatitude) <= 36))
                 latitude = 3;
             else
+                // latitudes below 23 degrees are tropical
                 latitude = 4;
             return latitude.ToString("D2");
         }
 
 
-        
+        // Slope is the the difference between the current point and the previous point, becaus of the way points
+        // are generated for the contours, each point represents and extension along the same line and represents
+        // the magnitude of the difference--no subtraction is necessary. Slope will eventually be used
+        // to model hydrology.
         public string Slope(Point p)
         {
             string slope;
             double x = p.X;
             double y = p.Y;
-            if (x == 0)
+            if (x == 0) // prevent divide by zero errors
                 throw new System.DivideByZeroException();
             else
             {
+                // To simplify the process, slopes are classfied (in one of four gradients representing steep to shallow)
                 if (y / x >= 10)
                     slope = "03";
                 else if ((y / x < 10) && (y / x >= 5))
@@ -209,6 +236,9 @@ namespace BiomeGeneration
 
         }
 
+
+        // Substrate is the surface material (rock, soil, water, etc.) where the point resides. Substrate is
+        // assigned based on on latitude, altitude and slope.
         public string Substrate(int latitude, int altitude, int slope)
         {
             int substrate = 0;
