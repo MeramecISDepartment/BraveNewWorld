@@ -1,4 +1,17 @@
-﻿using System;
+﻿/********************************************************************************************
+ * 
+ * Class:       Form1
+ * Project:     Brave New World
+ * Author:      Keith Emery
+ * Date:        4/16/14
+ * Description: This form provides an array of points to the Landcover class. It is for
+ *              demonstration purposes and provided in lieu of complete integration
+ *              of the Biome class into the other parts of the project.
+ *              
+ * ******************************************************************************************/
+
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,16 +33,7 @@ namespace Brave_New_World
 
         private void button1_Click(object sender, EventArgs e)
         {
- /*            System.Windows.Point[] points = {
-               new System.Windows.Point(3, 5),
-               new System.Windows.Point(200, 250),
-               new System.Windows.Point(3, 5),
-               new System.Windows.Point(200, 250),
-               new System.Windows.Point(500, 30),
-               new System.Windows.Point(20, 450),
-               new System.Windows.Point(500, 30),
-               new System.Windows.Point(20, 450)};    */   // keys of this last point
-
+            // A point array for test purposes.
            System.Windows.Point[] points = {
                new System.Windows.Point(175, 200),
                new System.Windows.Point(50, 100),
@@ -42,9 +46,7 @@ namespace Brave_New_World
 
             Biome biome = new Biome(points, 16);
 
-            //txt_keyOutput.SelectedText = biome.GetCustomKey();
-            
-
+                // Show keys
                 txt_keyOutput.SelectedText = biome.GetKeys()[0];
                 txt_biome1.SelectedText = biome.GetKeys()[1];
                 txt_biome2.SelectedText = biome.GetKeys()[2];
@@ -53,8 +55,8 @@ namespace Brave_New_World
                 txt_biome5.SelectedText = biome.GetKeys()[5];
                 txt_biome6.SelectedText = biome.GetKeys()[6];
                 txt_biome7.SelectedText = biome.GetKeys()[7]; 
-  //          txt_test1.SelectedText = biome.FetchBiome(biome.m_climates[0]);
 
+                // Show corresponding climates
                 txt_climate1.SelectedText = biome.GetClimate()[0];
                 txt_climate2.SelectedText = biome.GetClimate()[1];
                 txt_climate3.SelectedText = biome.GetClimate()[2];
