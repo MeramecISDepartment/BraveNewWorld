@@ -31,7 +31,7 @@ namespace ClassProject
         /// <summary>
         /// number of levels on the map.
         /// </summary>
-        private static int meshAmount = 0;
+        private static int meshAmount = 1;
 
         public frmPersonalization()
         {

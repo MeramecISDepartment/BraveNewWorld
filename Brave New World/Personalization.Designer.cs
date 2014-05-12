@@ -106,7 +106,6 @@
             // 
             this.cmbMeshLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMeshLevel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cmbMeshLevel.FormattingEnabled = true;
             this.cmbMeshLevel.Items.AddRange(new object[] {
             "High",
             "Medium",
