@@ -34,7 +34,7 @@ namespace Brave_New_World
         private void button1_Click(object sender, EventArgs e)
         {
             // A point array for test purposes.
-           System.Windows.Point[] points = {
+  /*         System.Windows.Point[] points = {
                new System.Windows.Point(175, 200),
                new System.Windows.Point(50, 100),
                new System.Windows.Point(10, 300),
@@ -42,7 +42,17 @@ namespace Brave_New_World
                new System.Windows.Point(10, 100),
                new System.Windows.Point(100, 100),
                new System.Windows.Point(10, 10),
-               new System.Windows.Point(10, 300)}; 
+               new System.Windows.Point(10, 300)}; */
+
+           System.Drawing.Point[] points = {
+               new System.Drawing.Point(175, 200),
+               new System.Drawing.Point(50, 100),
+               new System.Drawing.Point(10, 300),
+               new System.Drawing.Point(100, 10),
+               new System.Drawing.Point(10, 100),
+               new System.Drawing.Point(100, 100),
+               new System.Drawing.Point(10, 10),
+               new System.Drawing.Point(10, 300)}; 
 
             Biome biome = new Biome(points, 16);
 

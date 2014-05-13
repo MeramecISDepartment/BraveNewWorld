@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows;
+
 //using System.Convert;
 
 namespace BiomeGeneration
@@ -37,16 +39,18 @@ namespace BiomeGeneration
 
         // Physical attributes received from mesh generator
         private int m_roundsOfGeneration;
-        private Point[] m_locations;
+        private System.Drawing.Point[] m_locations;
         private string[] m_keys = { "class level" };
         private string[] m_climates;
         private string m_customKey = "";
+        private global::System.Drawing.Point[] myPoints;
+        private int levels;
 
 
         // build key from: latitude, altitude, slope, substrate, aspect
         // use key to get climate from array in BiomeLookup
         // constructor
-        public Biome(Point[] locations, int rounds)
+        public Biome(System.Drawing.Point[] locations, int rounds)
         {
             string altitude = "";
             string aspect = "";
@@ -78,6 +82,13 @@ namespace BiomeGeneration
             // The m_climates array contains the climates that correspond to the keys
             m_climates = Climates(m_keys);
         }
+
+  /*      public Biome(global::System.Drawing.Point[] myPoints, int levels)
+        {
+            // TODO: Complete member initialization
+            this.myPoints = myPoints;
+            this.levels = levels;
+        } */
 
         // Climates instantiates a BiomeLookup object which receives the array of keys and returns the
         // corresponding climate values
@@ -121,7 +132,7 @@ namespace BiomeGeneration
 
         // Altitude is the Maximum number of rounds of generation, minus the round in which 
         // the countour is generated. The altitude is the number of rounds remaining.
-        public string Altitude(Point p)
+        public string Altitude(System.Drawing.Point p)
         {
             return  (MAX_CONTOUR - m_roundsOfGeneration).ToString("D2");
         }
@@ -179,7 +190,7 @@ namespace BiomeGeneration
         // Reversing non-zero latitude values (zero didn't change) for demonstration. Need to re-figure logic.
         // Latitude is based on a points location on the map. The y-coordinate is all that matters with respect
         // to latitude.
-        public string Latitude(Point p)
+        public string Latitude(System.Drawing.Point p)
         {
             double y = p.Y;
             double calculatedLatitude;
@@ -212,7 +223,7 @@ namespace BiomeGeneration
         // are generated for the contours, each point represents and extension along the same line and represents
         // the magnitude of the difference--no subtraction is necessary. Slope will eventually be used
         // to model hydrology.
-        public string Slope(Point p)
+        public string Slope(System.Drawing.Point p)
         {
             string slope;
             double x = p.X;
