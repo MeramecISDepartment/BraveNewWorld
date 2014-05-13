@@ -1,4 +1,3 @@
-Branch : Developer
 Version : 0.01_P1D
 Description : Basic Terrain Generator.
 Developers:
