@@ -88,7 +88,7 @@ namespace VectorLandMesh.Land
 
             for (int i = Map.Detail; i > 0; i--)
             {
-                offset = ListHandler<double>.getFromTrimedIndex(previousScale, i - 1);
+                offset = ListHandler<double>.getFromTrimedIndex(previousScale, Map.Detail-i);
                 min = scale.X + offset;
                 max = scale.Y + offset;
                 int scaleValue = Map.MapSeed.Next((int)min, (int)max);

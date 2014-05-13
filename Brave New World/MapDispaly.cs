@@ -107,7 +107,7 @@ namespace ClassProject
             #endregion
 
             #region Change Form Display
-            //change the lable to tell the user it is Generating Terrain and Hide the progressbar
+            //change the label to tell the user it is Generating Terrain and Hide the progress bar
                 stripLblStatus.Text = "Generating Terrain";
                 stripProgressbar.Visible = false;
             #endregion

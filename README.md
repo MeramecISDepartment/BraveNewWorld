@@ -1,5 +1,5 @@
-Branch : Master
-Version : 0.01M
+Branch : Developer
+Version : 0.01_P1D
 Description : Basic Terrain Generator.
 Developers:
 	El Hadji Ndiaye
@@ -22,7 +22,7 @@ Personalization Menu
 BugReport:
 ○ Need to be Solved 
 • Solved
-	○ Terrain is not generation properly. 
+	• Terrain is not generation properly. 
 	  Most likely has to do with sin and cos mat not rounding properly.
 		[Setting Used To Create Effect]
 			Levels :[3]
