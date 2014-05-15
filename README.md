@@ -1,23 +1,34 @@
-Version : 0.01_P1D
-Description : Basic Terrain Generator.
+Brave New World Readme
+=============
+Version : 0.01_P1Dr
+Description : Basic Terrain Generato.
 Developers:
+-------
 	El Hadji Ndiaye
 	Andrew Richard Dittmann
 	Keith Emery
 
 Main Program Menu
-	• File
-		-Exit
-	• Edit
-		-Personalize
-			This will bring up the "Personalization Menu".
+-------
+* File
+	*Exit
+
+• Edit
+
+-Personalize
+This will bring up the "Personalization Menu".
+
+-Display (Ctrl-Space)
+This will display the map based on set Properties
 			
-		-Display (Ctrl-Space)
-			This will display the map based on set Properties
 Personalization Menu
-	• Levels
-	• Meshes
-	• Seed
+
+	• Levels ''
+	
+	• Meshes ''
+	
+	• Seed ''
+	
 BugReport:
 ○ Need to be Solved 
 • Solved

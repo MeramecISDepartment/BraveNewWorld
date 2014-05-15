@@ -67,7 +67,7 @@ namespace VectorLandMesh.Land
         /// <param name="scale"></param>
         /// <param name="height"></param>
         /// <param name="previousScale"></param>
-        public LandContour(Point center, Point scale, double height, List<double> previousScale = null)
+        public LandContour(Point center, Point scale, double height, ref Random Seed, List<double> previousScale = null)
         {
             //
             this.VectorScaleList = new List<double>();
@@ -91,8 +91,11 @@ namespace VectorLandMesh.Land
                 offset = ListHandler<double>.getFromTrimedIndex(previousScale, Map.Detail-i);
                 min = scale.X + offset;
                 max = scale.Y + offset;
-                int scaleValue = Map.MapSeed.Next((int)min, (int)max);
-                this.VectorScaleList.Add(scaleValue);
+                lock (Map.threadLocker)
+                {
+                    int scaleValue = Seed.Next((int)min, (int)max);
+                    this.VectorScaleList.Add(scaleValue);
+                }
             }
             Height = height;
         }

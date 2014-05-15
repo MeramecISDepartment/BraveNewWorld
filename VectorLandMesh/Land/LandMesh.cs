@@ -17,6 +17,10 @@ namespace VectorLandMesh.Land
         /// A List of Contours for each level of the map.
         /// </summary>
         private List<LandContour> LandVectorData { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        private Random seed;
         #endregion
         #region Public Properties
         /// <summary>
@@ -93,19 +97,14 @@ namespace VectorLandMesh.Land
         /// <param name="heightScaling"></param>
         /// <param name="levels"></param>
         /// <param name="centerPoint"></param>
-        private void Initialize(List<Point> minMaxWidths, List<double> heightScaling, int levels, Point centerPoint = default(Point))
+        private void Initialize(List<Point> minMaxWidths, List<double> heightScaling,int levels, int SeedValue,Point centerPoint = default(Point))
         {
             //set default properties
             MinMaxVectorLength = minMaxWidths;
             NumberOfLevel = levels;
             HeightScaling = heightScaling;
             LandVectorData = new List<LandContour>();
-
-            // if the map has not been Initialized yet Initialize it.
-            if (Map.MapSeed==null)
-            {
-                Map.InitializeSeed();
-            }
+            seed = new Random(SeedValue);
             //if no center point is set or if the center point is not within the range set a new one.
             if (centerPoint != default(Point) && centerPoint.X <= Map.Box[2] && centerPoint.Y <= Map.Box[3])
             {
@@ -114,8 +113,11 @@ namespace VectorLandMesh.Land
             }
             else
             {
-                //set a new center point based on Map bounding box.
-                this.CenterPoint = new Point(Map.MapSeed.Next((int)Map.Box[0], (int)Map.Box[2]), Map.MapSeed.Next((int)Map.Box[1], (int)Map.Box[3]));
+                lock (Map.threadLocker)
+                {
+                    //set a new center point based on Map bounding box.
+                    this.CenterPoint = new Point(seed.Next((int)Map.Box[0], (int)Map.Box[2]), seed.Next((int)Map.Box[1], (int)Map.Box[3]));
+                }
             }
 
             //add first Contour
@@ -128,33 +130,33 @@ namespace VectorLandMesh.Land
         /// <param name="minMaxVectorLength">A list of points (X:Min,Y:Max), or one singal point for min and max of every level.</param>
         /// <param name="heightScaling">A list of decimals , or one singal decimals for the hight of each level.</param>
         /// <param name="levels">The number of levels on a mesh.</param>
-        public LandMesh(Point minMaxVectorLength, double heightScaling, int levels)
+        public LandMesh(Point minMaxVectorLength, double heightScaling, int seedValue,int levels)
         {
             //initialize the land mesh
-            this.Initialize(new List<Point> { minMaxVectorLength }, new List<double> { heightScaling }, levels);
+            this.Initialize(new List<Point> { minMaxVectorLength }, new List<double> { heightScaling }, levels, seedValue);
         }
 
-        public LandMesh(List<Point> minMaxVectorLength, List<double> heightScaling, int levels=0)
+        public LandMesh(List<Point> minMaxVectorLength, List<double> heightScaling, int seedValue,int levels=0)
         {
             if (levels == 0)
             {
                 levels = Math.Max(minMaxVectorLength.Count, heightScaling.Count);
             }
             //initialize the land mesh
-            this.Initialize(minMaxVectorLength, heightScaling, levels);
+            this.Initialize(minMaxVectorLength, heightScaling, levels, seedValue);
         }
 
-        public LandMesh(List<Point> minMaxVectorLength, double heightScaling, int levels=0)
+        public LandMesh(List<Point> minMaxVectorLength, double heightScaling,int seedValue, int levels=0)
         {
             if (levels == 0)
             {
                 levels = minMaxVectorLength.Count;
             }
             //initialize the land mesh
-            this.Initialize(minMaxVectorLength, new List<double> { heightScaling }, levels);
+            this.Initialize(minMaxVectorLength, new List<double> { heightScaling }, levels, seedValue);
         }
 
-        public LandMesh(Point minMaxVectorLength, List<double> heightScaling, int levels=0)
+        public LandMesh(Point minMaxVectorLength, List<double> heightScaling,int seedValue, int levels=0)
         {
             //if the number of levels 
             if (levels == 0)
@@ -162,7 +164,7 @@ namespace VectorLandMesh.Land
                 levels = heightScaling.Count;
             }
             //initialize the land mesh
-            this.Initialize(new List<Point> { minMaxVectorLength }, heightScaling, levels);
+            this.Initialize(new List<Point> { minMaxVectorLength }, heightScaling, levels, seedValue);
         }
 
         /// <summary>
@@ -184,7 +186,7 @@ namespace VectorLandMesh.Land
             currentHeight = (LandVectorData.Count > 0) ? LandVectorData[LandVectorData.Count - 1].Height - ListHandler<double>.getFromTrimedIndex(HeightScaling, LandVectorData.Count) : HeightLevel;
 
             // add a new Contour to the end of the list
-            LandVectorData.Add(new LandContour(CenterPoint,scaleMaxMin, currentHeight, lastContourScale));
+            LandVectorData.Add(new LandContour(CenterPoint,scaleMaxMin, currentHeight,ref this.seed, lastContourScale));
         }
         #endregion
             

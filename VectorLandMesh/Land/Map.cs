@@ -8,6 +8,10 @@ namespace VectorLandMesh.Land
     public class Map
     {
         /// <summary>
+        /// Multi Thread Support
+        /// </summary>
+        public static readonly object threadLocker = new object();
+        /// <summary>
         /// The Random Seed of the map.
         /// </summary>
         private static Random seed = null;
