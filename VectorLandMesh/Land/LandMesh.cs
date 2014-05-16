@@ -113,11 +113,8 @@ namespace VectorLandMesh.Land
             }
             else
             {
-                lock (Map.threadLocker)
-                {
                     //set a new center point based on Map bounding box.
                     this.CenterPoint = new Point(seed.Next((int)Map.Box[0], (int)Map.Box[2]), seed.Next((int)Map.Box[1], (int)Map.Box[3]));
-                }
             }
 
             //add first Contour

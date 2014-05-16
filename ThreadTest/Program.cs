@@ -28,13 +28,35 @@ namespace ThreadTest
             int meshOnLevel = 0;
             List<LandMesh> mapMeshData = new List<LandMesh>();
             #endregion
+            #region Threading Variables
             int avarage = 0;
-            int NUMBER_OF_THREDS = 10;
+            int NUMBER_OF_THREADS = 10;
             List<int> RandomSeedValues = new List<int>();
             List<int> meshOnLevels = new List<int>();
             List<List<int>> meshsOnThreads = new List<List<int>>();
+            int currentLevel = 1;
+            int max = 0;
+            _barrier = new Barrier(3, barrier => { currentLevel++; Console.WriteLine("GO1"); });
+            _barrier2 = new Barrier(3, barrier => { max = 0; Console.WriteLine("GO2"); });
+            _barrier3 = new Barrier(3, barrier => { currentLevel = 1; Console.WriteLine("GO3"); });
+            List<List<int>> LevelsList = new List<List<int>> { new List<int> { 1, 2, 4 }, new List<int> { 1, 2, 4 }, new List<int> { 1, 3, 0 } };
+            
+            Thread t1 = new Thread(() => Speak(ref currentLevel, ref LevelsList, 0, ref max));
+            t1.Name="1";
+            Thread t2 = new Thread(() => Speak(ref currentLevel, ref LevelsList, 1, ref max));
+            t2.Name = "2";
+            Thread t3 = new Thread(() => Speak(ref currentLevel, ref LevelsList, 2, ref max));
+            t3.Name = "3";
 
+            
+            t1.Start();
+            t2.Start();
+            t3.Start();
             List<Thread> Threads = new List<Thread>();
+            
+            int index = 1;
+            List<int> ContoursOnLevels = new List<int>();
+            #endregion
             #region Thread Separation
             //grabs a first random number from an odds map... but not zero.
 
@@ -54,26 +76,28 @@ namespace ThreadTest
                 }
                 meshOnLevels.Add(meshOnLevel);
             }
+            meshOnLevels.Reverse();
             List<int> copy = new List<int>(meshOnLevels);
-            int counter = 1;
             var ContoursOnLevelsQ = from a in meshOnLevels
-                                    let n=a * counter++
-                                    orderby n descending 
+                                    let n = multipdebug(a,index++)
+                                    let i=index
+                                    orderby i
                                     select n;
-            List<int> ContoursOnLevels = ContoursOnLevelsQ.ToList<int>();
+            ContoursOnLevels = ContoursOnLevelsQ.ToList<int>();
 
-            avarage = (ContoursOnLevels.Sum() / NUMBER_OF_THREDS);
+            avarage = (ContoursOnLevels.Sum() / NUMBER_OF_THREADS);
             int heightOffset = 0;
-            while (meshsOnThreads.Count != NUMBER_OF_THREDS)
+            while (meshsOnThreads.Count != NUMBER_OF_THREADS)
             {
                 
                 int threadNumber = meshsOnThreads.Count;
-                counter = -1;
+                index = -1;
                 int chunkCount = 0;
+
                 var results =
                     from n in ContoursOnLevels
-                    where (counter++ != null && checkIt(ref chunkCount, n, avarage, ref counter) && counter < meshOnLevels.Count)
-                    select meshOnLevels[counter];
+                    where (index++ != -1 && checkIt(ref chunkCount, n,  avarage, ref index) && index <= meshOnLevels.Count)
+                    select meshOnLevels[index];
 
                 List<int> curentlist = results.ToList<int>();
                 //curentlist.Reverse();
@@ -87,28 +111,10 @@ namespace ThreadTest
                     int h = heightOffset;
                     int i = RandomSeedValues.Count - 1;
                     Threads.Add(new Thread(() => ThreadMesh(ref mapMeshData, meshsOnThreads[threadNumber], RandomSeedValues, h)));
-                    heightOffset += curentlist.Count();
+                    heightOffset -= curentlist.Count();
                 }
                 
             }
-            //meshsOnThreads.Reverse();
-            /*
-            for (int x = NUMBER_OF_THREDS; x > 0; x--)
-            {
-                ContourCount=0;
-                meshsOnThreads.Add(new List<int>());
-                RandomSeedValues.Add(new List<int>());
-                while (ContourCount <= avarage && i < Levels)
-                {
-                    meshsOnThreads[meshsOnThreads.Count - 1].Add(meshOnLevels[i]);
-                    RandomSeedValues[RandomSeedValues.Count - 1].Add(Map.MapSeed.Next());
-                    ContourCount += meshOnLevels[i] * (Levels-i);
-                    i += 1;
-                }
-                
-                
-            }
-             */
             #endregion
 
             #region Terrain Generation
@@ -119,7 +125,6 @@ namespace ThreadTest
             #endregion
             int thredsAlive = 1;
 
-
             while (thredsAlive > 0) 
             {
                 thredsAlive = Threads.Count(n => n.IsAlive); 
@@ -127,15 +132,54 @@ namespace ThreadTest
             
             var SortedByHeigght =
                 from mesh in mapMeshData
-                orderby mesh.HeightLevel descending
-                orderby mesh.CenterPoint.X descending
-                orderby mesh.CenterPoint.Y descending
+                orderby mesh.HeightLevel descending,mesh.CenterPoint.X descending,mesh.CenterPoint.Y descending
                 select mesh;
             mapMeshData=SortedByHeigght.ToList();
             Console.ReadKey();
         }
 
+        static void Speak(ref int currentLevel, ref List<List<int>> levels,int index,ref int counter)
+        {
+            int sum = 1;
+            while (sum > 0)
+            {
+                for (int y = 0; y < levels[0].Count; y++)
+                {
+                    bool exicuted = false;
+                    bool printed = false;
+                    while (!exicuted)
+                    {
 
+                        if (levels[index][y] == currentLevel)
+                        {
+                            printed = true;
+                            Console.Write("|Print - "+currentLevel);
+                            levels[index][y]--;
+                            exicuted = true;
+                        }
+                        Console.WriteLine((printed ? "" : "|Skip  - " + currentLevel) + "| Wait 1:" + Thread.CurrentThread.Name);
+                        _barrier.SignalAndWait();
+                    }
+                    lock (_locker)
+                    {
+                        counter++;
+                    }
+                    while (counter != 0)
+                    {
+                        _barrier2.SignalAndWait();
+                    }
+                }
+                Console.WriteLine("| Wait 2:" + Thread.CurrentThread.Name);
+                _barrier3.SignalAndWait();
+                sum = (from level in levels
+                       select level.Sum()).ToList().Sum();
+            }
+        }
+
+        private static int multipdebug(int a, int index)
+        {
+            return a * index;
+        }
         private static bool checkIt(ref int chunkCount, int n, int avarage, ref int counter)
         {
             
@@ -152,7 +196,7 @@ namespace ThreadTest
             for (int x = MeshesOnLevel.Count; x > 0; x--)
             {
                 CurrentLevel=MeshesOnLevel.Count - x;
-                Random Seed = new Random(RandomSeedValues[CurrentLevel + heightOffset]);
+                Random Seed = new Random(RandomSeedValues[CurrentLevel - heightOffset]);
                 //adds new Contour for each existing mesh.                
                 foreach (LandMesh mesh in mapMeshChunk)
                 {
@@ -162,7 +206,7 @@ namespace ThreadTest
                 //add new land mesh(s)
                 for (int y = MeshesOnLevel[CurrentLevel]; y > 0; y--)
                 {
-                    land = new LandMesh(Program.VectorLengths, 1D,Seed.Next(), x + heightOffset);
+                    land = new LandMesh(Program.VectorLengths, 1D, Seed.Next(), CurrentLevel + 1 - heightOffset);
                     mapMeshChunk.Add(land);
                 }
             }
@@ -171,8 +215,11 @@ namespace ThreadTest
                 mapMeshData.AddRange(mapMeshChunk);
             }
         }
+        static Barrier _barrier;
+        static Barrier _barrier2;
+        static Barrier _barrier3;
+        static object _locker= new object();
 
- 
         #region User Interactive Properties
         /// <summary>
         /// The Default number of levels
