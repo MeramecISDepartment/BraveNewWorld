@@ -45,6 +45,7 @@
             this.txt_climate6 = new System.Windows.Forms.TextBox();
             this.txt_climate7 = new System.Windows.Forms.TextBox();
             this.txt_climate8 = new System.Windows.Forms.TextBox();
+            this.btn_display = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -169,11 +170,22 @@
             this.txt_climate8.Size = new System.Drawing.Size(100, 20);
             this.txt_climate8.TabIndex = 16;
             // 
+            // btn_display
+            // 
+            this.btn_display.Location = new System.Drawing.Point(236, 227);
+            this.btn_display.Name = "btn_display";
+            this.btn_display.Size = new System.Drawing.Size(75, 23);
+            this.btn_display.TabIndex = 17;
+            this.btn_display.Text = "display";
+            this.btn_display.UseVisualStyleBackColor = true;
+            this.btn_display.Click += new System.EventHandler(this.btn_display_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(452, 261);
+            this.Controls.Add(this.btn_display);
             this.Controls.Add(this.txt_climate8);
             this.Controls.Add(this.txt_climate7);
             this.Controls.Add(this.txt_climate6);
@@ -218,6 +230,7 @@
         private System.Windows.Forms.TextBox txt_climate6;
         private System.Windows.Forms.TextBox txt_climate7;
         private System.Windows.Forms.TextBox txt_climate8;
+        private System.Windows.Forms.Button btn_display;
     }
 }
 

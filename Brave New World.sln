@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brave New World", "Brave New World\Brave New World.csproj", "{D738112D-9E4E-45AC-BE36-0EADEC74320E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorLandMesh", "VectorLandMesh\VectorLandMesh.csproj", "{806B1111-93BF-408E-AAAD-7207B06CEAA5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{973D1650-F8FD-4D4E-9710-D40A2636BD66} = {973D1650-F8FD-4D4E-9710-D40A2636BD66}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiomeGeneration", "BiomeGeneration\BiomeGeneration.csproj", "{973D1650-F8FD-4D4E-9710-D40A2636BD66}"
 EndProject
