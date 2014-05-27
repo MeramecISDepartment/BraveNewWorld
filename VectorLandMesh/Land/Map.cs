@@ -18,9 +18,8 @@ namespace VectorLandMesh.Land
         public static float[] Box { get; set; }
 
         /// <summary>
-        /// 
+        /// The number of Vectors on each Contour
         /// </summary>
-        /// 
         public static int Detail { get; set; }
         public static void InitializeMap(int detail, float[] box)
         {
@@ -34,15 +33,15 @@ namespace VectorLandMesh.Land
             seed = new Random(seedValue);
         }
         /// <summary>
-        /// 
+        /// Initialize the Seed for generating random values
         /// </summary>
         public static void InitializeSeed()
         {
-
+            //create a new seed.
             seed = new Random();
         }
         /// <summary>
-        /// 
+        /// The Map seed used to generate new random values.
         /// </summary>
         public static Random MapSeed
         {

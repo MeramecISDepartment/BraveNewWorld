@@ -16,7 +16,7 @@ namespace ClassProject
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MapDisplay());
+            Application.Run(new frmMapDisplay());
         }
     }
 }
