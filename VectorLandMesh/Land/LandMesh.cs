@@ -12,8 +12,13 @@ namespace VectorLandMesh.Land
     /// </summary>
     public class LandMesh
     {
-
-        #region Properties
+        #region Private Properties
+        /// <summary>
+        /// A List of Contours for each level of the map.
+        /// </summary>
+        private List<LandContour> LandVectorData { get; set; }
+        #endregion
+        #region Public Properties
         /// <summary>
         /// A List of Points to define a min and max range between each level in a Mesh.
         /// Point x = min
@@ -49,11 +54,6 @@ namespace VectorLandMesh.Land
         }
 
         /// <summary>
-        /// A List of Contours for each level of the map.
-        /// </summary>
-        public List<LandContour> LandVectorData { get; private set; }
-
-        /// <summary>
         /// Central point of Mesh on the XZ Plane.
         /// </summary>
         public Point CenterPoint { get; set; }
@@ -67,21 +67,27 @@ namespace VectorLandMesh.Land
             {
                 //set new list to be returned
                 List<List<Point>> rawPoints = new List<List<Point>>();
-                //add the raw points of each contor in the mesh to the new list.
+                //add the raw points of each Contour in the mesh to the new list.
                 foreach (LandContour contor in LandVectorData)
                 {
-                    rawPoints.Add(contor.RawPoints);
+                    rawPoints.Add(contor.Points);
                 }
                 //return raw points.
                 return rawPoints;
             }
         }
-        #endregion
-            
+        /// <summary>
+        /// The number of Contours on the Mesh.
+        /// </summary>
+        public int NumberOfContours
+        {
+           get{ return LandVectorData.Count;}
+        }
+        #endregion   
         #region Public Methods
 
         /// <summary>
-        /// Initilization of New Land Mesh.
+        /// Initialization of New Land Mesh.
         /// </summary>
         /// <param name="minMaxWidths"></param>
         /// <param name="heightScaling"></param>
@@ -117,13 +123,14 @@ namespace VectorLandMesh.Land
         }
 
         /// <summary>
-        /// Genarate New Land Mesh Based on a Random seed with only one Contour
+        /// Generate New Land Mesh Based on a Random seed with only one Contour
         /// </summary>
         /// <param name="minMaxVectorLength">A list of points (X:Min,Y:Max), or one singal point for min and max of every level.</param>
         /// <param name="heightScaling">A list of decimals , or one singal decimals for the hight of each level.</param>
         /// <param name="levels">The number of levels on a mesh.</param>
         public LandMesh(Point minMaxVectorLength, double heightScaling, int levels)
         {
+            //initialize the land mesh
             this.Initialize(new List<Point> { minMaxVectorLength }, new List<double> { heightScaling }, levels);
         }
 
@@ -133,6 +140,7 @@ namespace VectorLandMesh.Land
             {
                 levels = Math.Max(minMaxVectorLength.Count, heightScaling.Count);
             }
+            //initialize the land mesh
             this.Initialize(minMaxVectorLength, heightScaling, levels);
         }
 
@@ -142,15 +150,18 @@ namespace VectorLandMesh.Land
             {
                 levels = minMaxVectorLength.Count;
             }
+            //initialize the land mesh
             this.Initialize(minMaxVectorLength, new List<double> { heightScaling }, levels);
         }
 
         public LandMesh(Point minMaxVectorLength, List<double> heightScaling, int levels=0)
         {
+            //if the number of levels 
             if (levels == 0)
             {
                 levels = heightScaling.Count;
             }
+            //initialize the land mesh
             this.Initialize(new List<Point> { minMaxVectorLength }, heightScaling, levels);
         }
 
@@ -162,14 +173,14 @@ namespace VectorLandMesh.Land
             //sets the "current height" to 0 and set
             double currentHeight = 0;
 
-            //grabs the "last contour" created on the mesh and grabs the "last contour's scale", if it dosnt exist set it to null;
+            //grabs the "last contour" created on the mesh and grabs the "last contour's scale", if it doesn't exist set it to null;
             LandContour lastContour = ListHandler<LandContour>.getNullIfOutOfRange(LandVectorData, LandVectorData.Count - 1);
-            List<double> lastContourScale = (lastContour != null) ? lastContour.Scales : null;
+            List<double> lastContourScale = (lastContour != null) ? lastContour.VectorScaleList : null;
 
-            // the "Min and Max scale" of the new contor (X:min, Y:max), used with the "last contour's scale" when creating  a new Contour
+            // the "Min and Max scale" of the new contour (X:min, Y:max), used with the "last contour's scale" when creating  a new Contour
             Point scaleMaxMin = ListHandler<Point>.getFromTrimedIndex(MinMaxVectorLength, LandVectorData.Count);
 
-            //if this is not the fist contour on the mesh subtract the diffrence in height from the previous Contour's height level to get the new height level, else (this is the first Contour) so set it to the Mesh's "Height Level"
+            //if this is not the fist contour on the mesh subtract the difference in height from the previous Contour's height level to get the new height level, else (this is the first Contour) so set it to the Mesh's "Height Level"
             currentHeight = (LandVectorData.Count > 0) ? LandVectorData[LandVectorData.Count - 1].Height - ListHandler<double>.getFromTrimedIndex(HeightScaling, LandVectorData.Count) : HeightLevel;
 
             // add a new Contour to the end of the list
