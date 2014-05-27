@@ -229,7 +229,8 @@ namespace BiomeGeneration
             double x = p.X;
             double y = p.Y;
             if (x == 0) // prevent divide by zero errors
-                throw new System.DivideByZeroException();
+                slope = "00";
+            //throw new System.DivideByZeroException();
             else
             {
                 // To simplify the process, slopes are classfied (in one of four gradients representing steep to shallow)
@@ -241,9 +242,9 @@ namespace BiomeGeneration
                     slope = "01";
                 else
                     slope = "00";
-            return (slope); // This should work because each point in our point array represents the change
-                                // from the prior point (in other words, the difference between point 1 and point 2.
             }
+                return (slope); // This should work because each point in our point array represents the change
+                // from the prior point (in other words, the difference between point 1 and point 2.
 
         }
 
