@@ -21,6 +21,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows;
 using BiomeGeneration;
+using ClassProject;
 
 namespace Brave_New_World
 {
@@ -86,7 +87,7 @@ namespace Brave_New_World
 
         private void btn_display_Click(object sender, EventArgs e)
         {
-            MapDisplay md = new MapDisplay();
+            frmMapDisplay md = new frmMapDisplay();
             md.Show();
         }
 
