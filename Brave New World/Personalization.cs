@@ -12,9 +12,8 @@ namespace ClassProject
 {
     public partial class frmPersonalization : Form
     {
-        /// <summary>
-        /// if the user choses Low, Med, High. the random number will be sellected between thes numbers.
-        /// </summary>
+
+        // if the user choses Low, Med, High. the random number will be selected between these numbers.
         private int[] OddsMapLow  = { 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 3, 3, 4 };
         private int[] OddsMapMid  = { 0, 0, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4 };
         private int[] OddsMapHigh = { 0, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4 };
@@ -32,7 +31,7 @@ namespace ClassProject
         /// <summary>
         /// number of levels on the map.
         /// </summary>
-        private static int meshAmount = 0;
+        private static int meshAmount = 1;
 
         public frmPersonalization()
         {
@@ -45,7 +44,7 @@ namespace ClassProject
         }
 
         /// <summary>
-        /// 
+        /// Save Button
         /// </summary>
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -53,7 +52,7 @@ namespace ClassProject
         }
 
         /// <summary>
-        /// 
+        /// On Load
         /// </summary>
         private void frmPersonalization_Load(object sender, EventArgs e)
         {
@@ -62,17 +61,18 @@ namespace ClassProject
             cmbMeshLevel.SelectedIndex = frmPersonalization.meshAmount;
         }
         /// <summary>
-        /// 
+        /// Default Button Click
         /// </summary>
         private void btnDefault_Click(object sender, EventArgs e)
         {
+            //Resets form to default settings.
             txtLevels.Text = frmMapDisplay.DefaultLevels.ToString();
             cmbMeshLevel.SelectedIndex = 1;
             txtSeed.Text = "";
         }
 
         /// <summary>
-        /// 
+        /// On Form Close
         /// </summary>
         private void frmPersonalization_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -107,9 +107,8 @@ namespace ClassProject
                 frmPersonalization.meshAmount=cmbMeshLevel.SelectedIndex;
             }
         }
-
         /// <summary>
-        /// 
+        /// On Level Text Change
         /// </summary>
         private void txtLevels_TextChanged(object sender, EventArgs e)
         {

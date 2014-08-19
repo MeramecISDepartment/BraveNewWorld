@@ -82,6 +82,7 @@
             // btnExit
             // 
             this.btnExit.BackColor = System.Drawing.SystemColors.Control;
+            this.btnExit.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnExit.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnExit.Location = new System.Drawing.Point(204, 136);
             this.btnExit.Name = "btnExit";
@@ -105,7 +106,6 @@
             // 
             this.cmbMeshLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMeshLevel.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cmbMeshLevel.FormattingEnabled = true;
             this.cmbMeshLevel.Items.AddRange(new object[] {
             "High",
             "Medium",
@@ -153,9 +153,12 @@
             // 
             // frmPersonalization
             // 
+            this.AcceptButton = this.btnSave;
+            this.AccessibleName = "";
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.CancelButton = this.btnExit;
             this.ClientSize = new System.Drawing.Size(314, 163);
             this.Controls.Add(this.txtSeed);
             this.Controls.Add(this.label1);

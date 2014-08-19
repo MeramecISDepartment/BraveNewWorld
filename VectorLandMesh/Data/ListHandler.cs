@@ -24,7 +24,7 @@ namespace VectorLandMesh.Data
         /// <param name="index">The index that is to be checked</param>
         internal static Type getNullIfOutOfRange(List<Type> list, int index)
         {
-            //  The object to be retuned set to type default if the object cant be set a null
+            //  The object to be returned set to type default if the object cant be set a null
             Type returnObject = default(Type);
             
             //if the list is not equal to null and and is less then number of object in the list set the "Return Object" to it.
