@@ -122,7 +122,8 @@ namespace ClassProject
                 Map.InitializeMap(Detail, new float[] { drawing.VisibleClipBounds.X, drawing.VisibleClipBounds.Y, drawing.VisibleClipBounds.Width, drawing.VisibleClipBounds.Height });
             #endregion
 
-            #region Terrain Generation          
+            #region Terrain Generation 
+            List<Color> MeshColorList=new List<Color>();
             //grabs a first randum number from an odds map... but not zero.
             while (meshOnLevel == 0)
             {
@@ -140,6 +141,7 @@ namespace ClassProject
                 //add new land mesh(s)
                 for (int y = meshOnLevel; y > 0; y--)
                 {
+                    MeshColorList.Add(Color.FromArgb(Map.MapSeed.Next(0,255),Map.MapSeed.Next(0,255),Map.MapSeed.Next(0,255)));
                     land = new LandMesh(VectorLengths, 10D, x);
                     mapMeshData.Add(land);
                 }
@@ -191,6 +193,7 @@ namespace ClassProject
             #endregion
 
             #region Drawing
+            
             //for each level
             for (int y = Levels; y > 0; y--)
             {
@@ -211,6 +214,8 @@ namespace ClassProject
                         //draw the contour and add one to the value of the
                         System.Drawing.Point[] myPoints = drawingMapData[x][y2 - 1].ToArray<System.Drawing.Point>();
                         drawing.FillClosedCurve(new SolidBrush(ColorLevelList[y - 1]), myPoints);// how to graph the shape using the array of points
+                        //new Pen(Color.FromArgb(0,0,0))
+                        drawing.DrawClosedCurve(new Pen(MeshColorList[x]), myPoints);
                         stripProgressbar.PerformStep();
                     }
                 }
