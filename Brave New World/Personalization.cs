@@ -56,6 +56,7 @@ namespace ClassProject
         /// </summary>
         private void frmPersonalization_Load(object sender, EventArgs e)
         {
+            txtThreads.Text = frmMapDisplay.NumberOfThreads.ToString();
             txtLevels.Text = frmMapDisplay.Levels.ToString();
             txtSeed.Text = frmPersonalization.seed;
             cmbMeshLevel.SelectedIndex = frmPersonalization.meshAmount;
@@ -66,6 +67,7 @@ namespace ClassProject
         private void btnDefault_Click(object sender, EventArgs e)
         {
             //Resets form to default settings.
+            txtThreads.Text = frmMapDisplay.NumberOfDefaultThreads.ToString();
             txtLevels.Text = frmMapDisplay.DefaultLevels.ToString();
             cmbMeshLevel.SelectedIndex = 1;
             txtSeed.Text = "";
@@ -79,6 +81,7 @@ namespace ClassProject
             if (saveOnClose)
             {
                 frmMapDisplay.Levels = int.Parse(txtLevels.Text);
+                frmMapDisplay.NumberOfThreads = int.Parse(txtThreads.Text);
                 //set the odds map of the generated map equal to High, Medium, Low settings
                 switch (cmbMeshLevel.SelectedIndex)
                 {
@@ -106,6 +109,7 @@ namespace ClassProject
                 frmPersonalization.seed=txtSeed.Text;
                 frmPersonalization.meshAmount=cmbMeshLevel.SelectedIndex;
             }
+            
         }
         /// <summary>
         /// On Level Text Change
@@ -114,16 +118,36 @@ namespace ClassProject
         {
             int textValue=0;
             
-            if(int.TryParse(txtLevels.Text, out textValue) & ( textValue <= 0 ||textValue > 256))
+            if(int.TryParse(txtLevels.Text, out textValue) && ( textValue > 0 && textValue < 256))
+            {
+                btnSave.Enabled = true;
+                errorProvider.Clear();
+            }
+            else
             {
                 btnSave.Enabled = false;
                 errorProvider.SetError(txtLevels, "Not A Valid Number Between 1 and 256");
             }
-            else
-                btnSave.Enabled = true;
             
         }
 
+        private void txtThreads_TextChanged(object sender, EventArgs e)
+        {
+            int textValue = 0;
+
+            if (int.TryParse(txtLevels.Text, out textValue))
+            {
+                btnSave.Enabled = true;
+                errorProvider.Clear();
+            }
+            else
+            {
+                btnSave.Enabled = false;
+                errorProvider.SetError(txtLevels, "Not A Valid Number Between 1 and 256");
+            }
+            
+            
+        }
      
     }
 }

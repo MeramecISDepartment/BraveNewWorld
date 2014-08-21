@@ -24,8 +24,17 @@ namespace ClassProject
 
         #endregion
         #region User Interactive Properties
+            /// <summary>
+            /// 
+            /// </summary>
+            public static int NumberOfDefaultThreads { get { return 6; } }
+            /// <summary>
+            /// Number of Threads used
+            /// </summary>
+            public static int NumberOfThreads = NumberOfDefaultThreads;
 
-            
+
+
             /// <summary>
             /// Color list each level of the hight map.
             /// </summary>
@@ -52,17 +61,17 @@ namespace ClassProject
             /// test for map data. will be set in to class List
             /// </summary>
 
-            public static List<System.Windows.Point> VectorLengths = new List<System.Windows.Point>() { new System.Windows.Point(10, 20), new System.Windows.Point(5, 20) };
+            public static List<System.Windows.Point> VectorLengths = new List<System.Windows.Point>() { new System.Windows.Point(10, 20), new System.Windows.Point(20, 40) };
 
             /// <summary>
             /// Value of the seed if it is used
             /// </summary>
-            public static int SeedValue = 123;
+            public static int SeedValue = 0;
 
             /// <summary>
             /// If The SeedValue is being used to seed the Random Object
             /// </summary>
-            public static bool useSeed = true;
+            public static bool useSeed = false;
         #endregion
 
             /// <summary>
@@ -86,11 +95,11 @@ namespace ClassProject
 
             //Initialize the map if there is a seed use it.
             if (useSeed)
-                //Map.InitializeMap(Detail, new float[] { drawing.VisibleClipBounds.X, drawing.VisibleClipBounds.Y, drawing.VisibleClipBounds.Width, drawing.VisibleClipBounds.Height }, SeedValue);
-                Map.InitializeMap(Detail, new float[] { 0, 0, 340, 340 }, SeedValue);
+                Map.InitializeMap(Detail, new float[] { drawing.VisibleClipBounds.X, drawing.VisibleClipBounds.Y, drawing.VisibleClipBounds.Width, drawing.VisibleClipBounds.Height }, SeedValue);
+                //Map.InitializeMap(Detail, new float[] { 0, 0, 340, 340 }, SeedValue);
             else
-                Map.InitializeMap(Detail, new float[] { 0, 0, 340, 340 });
-            //Map.InitializeMap(Detail, new float[] { drawing.VisibleClipBounds.X, drawing.VisibleClipBounds.Y, drawing.VisibleClipBounds.Width, drawing.VisibleClipBounds.Height });
+                //Map.InitializeMap(Detail, new float[] { 0, 0, 340, 340 });
+            Map.InitializeMap(Detail, new float[] { drawing.VisibleClipBounds.X, drawing.VisibleClipBounds.Y, drawing.VisibleClipBounds.Width, drawing.VisibleClipBounds.Height });
             #endregion
 
             #region Terrain Generation Variables
@@ -100,19 +109,22 @@ namespace ClassProject
             #endregion
 
             #region Threading Variables
-
+            int sum = 0;
             int avarage = 0;
-            int NUMBER_OF_THREADS = 10;
+            
             List<int> RandomSeedValues = new List<int>();
             List<int> meshOnLevels = new List<int>();
             List<List<int>> meshsOnThreads = new List<List<int>>();
-            int currentLevel = Levels;
-            _barrier = new Barrier(NUMBER_OF_THREADS, barrier =>
-            {
-                currentLevel = (currentLevel != 0) ? currentLevel - 1 : Levels;
-                Console.WriteLine("| CurL:" + currentLevel);
-            });
+            int currentLevel = 0;
             List<List<int>> LevelsList = new List<List<int>>();
+            _barrier = new Barrier(NumberOfThreads, barrier =>
+            {
+                currentLevel++;
+                Console.WriteLine("| CurL:" + currentLevel);
+                sum = (from level in LevelsList
+                       select level.Sum()).ToList().Sum();
+            });
+            
 
             List<Thread> Threads = new List<Thread>();
 
@@ -150,9 +162,9 @@ namespace ClassProject
 
             #region Thread Separation
             //grabs a first random number from an odds map... but not zero.
-            avarage = (ContoursOnLevels.Sum() / NUMBER_OF_THREADS);
+            avarage = (ContoursOnLevels.Sum() / NumberOfThreads);
             int heightOffset = 0;
-            while (meshsOnThreads.Count != NUMBER_OF_THREADS)
+            while (meshsOnThreads.Count != NumberOfThreads)
             {
 
                 int threadNumber = meshsOnThreads.Count;
@@ -172,7 +184,7 @@ namespace ClassProject
                     meshOnLevels.RemoveRange(0, curentlist.Count());
                     ContoursOnLevels.RemoveRange(0, curentlist.Count());
 
-                    int h = heightOffset;
+                    int h = heightOffset-1;
                     int i = RandomSeedValues.Count - 1;
                     Threads.Add(new Thread(() => ThreadMesh(ref mapMeshData, meshsOnThreads[threadNumber], RandomSeedValues, h)));
                     heightOffset -= curentlist.Count();
@@ -189,9 +201,9 @@ namespace ClassProject
 
             mapMeshData = SortedByHeigght.ToList();
             #endregion
-
+            picboxDrawing.CreateGraphics().Clear(Color.Black);
             #region Drawing
-            for (int i = 0; i < NUMBER_OF_THREADS; i++)
+            for (int i = 0; i < NumberOfThreads; i++)
             {
                 //add anew List of int to LevelList for each Thread
                 LevelsList.Add(new List<int>());
@@ -203,7 +215,7 @@ namespace ClassProject
                 //set a new reference for the counter of the Thread
                 int counter = i;
                 //clears out the old threads for Terrain Generation, and set it to do Drawing Work.
-                Threads[i] = new Thread(() => Draw(ref currentLevel, mapMeshData, ref LevelsList, counter));
+                Threads[i] = new Thread(() => Draw(ref currentLevel,ref sum, mapMeshData, ref LevelsList, counter));
                 //set The Name of the Thread for Logging
                 Threads[i].Name = i.ToString();
             }
@@ -212,12 +224,11 @@ namespace ClassProject
             {
                 LevelsList[CurentThreadIndex].Add((int)mapMeshData[i].HeightLevel);
                 CurentThreadIndex++;
-                if (CurentThreadIndex >= NUMBER_OF_THREADS)
+                if (CurentThreadIndex >= NumberOfThreads)
                 {
                     CurentThreadIndex = 0;
                 }
             }
-
             //Draw the Map
             ThreadingStartWork(ref Threads);
             #endregion
@@ -231,6 +242,14 @@ namespace ClassProject
 
         private void displayToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            #region Setup Color Level List
+            //add a color the color list base on a gray scale.
+            for (int i = Levels; i >= 0; i--)
+            {
+                ColorLevelList.Add(Color.FromArgb(i * 0 / Levels, i * 153 / Levels, i * 51 / Levels));
+            }
+            ColorLevelList.Reverse();
+            #endregion
             // Generate the Map
             generateMap();
         }
@@ -250,35 +269,63 @@ namespace ClassProject
             }
         }
 
-        private void Draw(ref int currentLevel, List<LandMesh> mapMeshData, ref List<List<int>> levels, int index)
+        private void Draw(ref int currentLevel, ref int sum, List<LandMesh> mapMeshData, ref List<List<int>> LevelsList, int index)
         {
-            int sum = 1;
+            sum = 1;
+            while (sum > 0){
+                for (int y = 0; y < LevelsList[index].Count; y++)
+                {
+                    if (LevelsList[index][y]>0)
+                    {
+                        int d = LevelsList.Count * y + index;
+                        List<System.Drawing.Point> drawingPoints = new List<System.Drawing.Point>();
+
+                        foreach (System.Windows.Point point in mapMeshData[d].RawPoints[mapMeshData[d].NumberOfLevel-1-currentLevel])
+                        {
+                                //converts the X and Y values of System.Windows.Point (Decimal) to (int) and set them to a new System.Drawing.Point Object
+                                drawingPoints.Add(new System.Drawing.Point((int)point.X, (int)point.Y));
+                        }
+                        System.Drawing.Point[] myPoints = drawingPoints.ToArray();
+                            picboxDrawing.CreateGraphics().FillClosedCurve(new SolidBrush(ColorLevelList[currentLevel]), drawingPoints.ToArray());// how to graph the shape using the array of points
+                        //drawing.FillClosedCurve(new SolidBrush(Color.Red), myPoints);// how to graph the shape using the array of points
+                        stripProgressbar.PerformStep();
+                        LevelsList[index][y]--;
+                    }
+                }
+                _barrier.SignalAndWait();
+            }
+
+            /*
             while (sum > 0)
             {
-                for (int y = levels[index].Count - 1; y >= 0; y--)
+                for (int y = LevelsList[index].Count - 1; y >= 0; y--)
                 {
-                    if (levels[index][y] == currentLevel)
+                    if (LevelsList[index][y] == currentLevel)
                     {
-                        int d = levels[0].Count * y + index;
+                        int d = LevelsList[0].Count * y + index;
                         List<System.Drawing.Point> drawingPoints = new List<System.Drawing.Point>();
-                        foreach (System.Windows.Point point in mapMeshData[d].RawPoints[currentLevel-1])
+                        foreach (System.Windows.Point point in mapMeshData[d].RawPoints[currentLevel - 1])
                         {
                             //converts the X and Y values of System.Windows.Point (Decimal) to (int) and set them to a new System.Drawing.Point Object
                             drawingPoints.Add(new System.Drawing.Point((int)point.X, (int)point.Y));
                         }
                         System.Drawing.Point[] myPoints = drawingPoints.ToArray();
 
-                        drawing.FillClosedCurve(new SolidBrush(ColorLevelList[y - 1]), myPoints);// how to graph the shape using the array of points
-                        stripProgressbar.PerformStep();
                         lock (_locker)
-                            levels[index][y]--;
+                            drawing.FillClosedCurve(new SolidBrush(ColorLevelList[y]), drawingPoints.ToArray());// how to graph the shape using the array of points
+                        //drawing.FillClosedCurve(new SolidBrush(Color.Red), myPoints);// how to graph the shape using the array of points
+                        stripProgressbar.PerformStep();
+                        LevelsList[index][y]--;
+                    }
+                    else
+                    {
+                        y = 0;
                     }
                 }
+             
                 _barrier.SignalAndWait();
-                lock (_locker)
-                sum = (from level in levels
-                       select level.Sum()).ToList().Sum();
-            }
+            } 
+             */
         }
 
         private static bool checkIt(ref int chunkCount, int n, int avarage, ref int counter)
