@@ -5,6 +5,7 @@ Developers:
 	El Hadji Ndiaye
 	Andrew Richard Dittmann
 	Keith Emery
+        Tyler Barton (is testing to see how to work with tags and aliases)
 
 Main Program Menu
 	• File
