@@ -5,7 +5,7 @@ Developers:
 	El Hadji Ndiaye
 	Andrew Richard Dittmann
 	Keith Emery
-        Tyler Barton (is testing to see how to work with tags and aliases)
+        Tyler Barton (is testing to see how to work with tags and aliases...this time he is trying out the hash tag...yep)
 
 Main Program Menu
 	• File
